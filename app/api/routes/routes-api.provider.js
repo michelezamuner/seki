@@ -9,7 +9,8 @@ export const RoutesApiProvider = {
     }
 
     const dispatcher = container.get('dispatcher');
-    const routesRepository = new RoutesRepository();
+    const storage = container.get('storage');
+    const routesRepository = new RoutesRepository(storage);
     container.bind('api.routes.write', errorPresenter => {
       return new RoutesApiWrite(dispatcher, routesRepository, errorPresenter);
     });

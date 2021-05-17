@@ -1,10 +1,9 @@
-// @TODO: implement this
 export class RoutesRepository {
-  findByName (name) {
-    if (name === 'missing') {
-      return null;
-    }
+  constructor (driver) {
+    this._driver = driver;
+  }
 
-    return 'something';
+  findByName (name) {
+    return this._driver.findRouteByName(name);
   }
 }
