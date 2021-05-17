@@ -3,6 +3,8 @@ import { WebMapProvider } from '../web-map/web-map.provider.js';
 import { WebRoutesCreateView } from './web-routes-create.view.js';
 import { WebRoutesCreatePresenter } from './web-routes-create.presenter.js';
 import { WebRoutesCreateController } from './web-routes-create.controller.js';
+import { WebRoutesErrorView } from './web-routes-error.view.js';
+import { WebRoutesErrorPresenter } from './web-routes-error.presenter.js';
 
 export const WebRoutesProvider = {
   _provided: false,
@@ -17,10 +19,12 @@ export const WebRoutesProvider = {
     const dispatcher = container.get('dispatcher');
 
     dispatcher.register('ui.dom', dom => {
-      const routesApi = container.get('api.routes');
+      const webRoutesErrorView = new WebRoutesErrorView(dom);
+      const webRoutesErrorPresenter = new WebRoutesErrorPresenter(webRoutesErrorView);
+      const routesApiWrite = container.get('api.routes.write', webRoutesErrorPresenter);
       const webRoutesCreateView = new WebRoutesCreateView(dom);
       const webRoutesCreatePresenter = new WebRoutesCreatePresenter(webRoutesCreateView);
-      const webRoutesCreateController = new WebRoutesCreateController(routesApi);
+      const webRoutesCreateController = new WebRoutesCreateController(routesApiWrite);
 
       dispatcher.register('command', command => {
         webRoutesCreateController.onCommand(command);

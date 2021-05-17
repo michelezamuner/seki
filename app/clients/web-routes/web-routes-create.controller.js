@@ -1,6 +1,6 @@
 export class WebRoutesCreateController {
-  constructor (routesApi) {
-    this._routesApi = routesApi;
+  constructor (routesApiWrite) {
+    this._routesApiWrite = routesApiWrite;
 
     this._onLoadListeners = [];
     this._onCreateCommandListeners = [];
@@ -41,6 +41,6 @@ export class WebRoutesCreateController {
       track: track,
       name: routeName
     };
-    this._routesApi.create(routesApiCreateRequest);
+    this._routesApiWrite.create(routesApiCreateRequest);
   }
 }

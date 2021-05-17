@@ -1,4 +1,4 @@
-/* global document, window */
+/* global document, window, alert */
 export const Dom = {
   addEventListener: function (eventName, listener) {
     document.addEventListener(eventName, event => {
@@ -32,5 +32,8 @@ export const Dom = {
   },
   appendToBody: function (element) {
     document.body.appendChild(element);
+  },
+  alert: function (message) {
+    alert(message);
   }
 };
