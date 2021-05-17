@@ -1,0 +1,13 @@
+export const config = {
+  map: {
+    type: 'mapbox/outdoors-v11',
+    startView: {
+      latlng: [45.9759, 12.4218],
+      zoom: 15
+    },
+    maxZoom: 18
+  },
+  palette: {
+    position: 'bottomleft'
+  }
+};
