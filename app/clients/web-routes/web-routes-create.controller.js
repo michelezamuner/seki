@@ -37,9 +37,6 @@ export class WebRoutesCreateController {
   }
 
   onTrackLoaded (track, routeName) {
-    if (routeName === '') {
-      routeName = 'New route';
-    }
     const routesApiCreateRequest = {
       track: track,
       name: routeName

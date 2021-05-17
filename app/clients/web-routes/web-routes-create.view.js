@@ -22,6 +22,9 @@ export class WebRoutesCreateView {
           listener(track, this._trackInput.routeName);
         }
       });
+      if (!this._trackInput.routeName) {
+        this._trackInput.routeName = this._trackInput.files[0].name.replace(/\.[^/.]+$/, '');
+      }
       reader.readAsText(this._trackInput.files[0]);
     };
     this._dom.appendToBody(this._trackInput);
