@@ -12,10 +12,10 @@ export class MemoryStorage {
   }
 
   findById (context, id) {
-    return this._data[context].find(data => data.id === id);
+    return this.findBy(context, 'id', id);
   }
 
-  findRouteByName (name) {
-    return this._data.routes.find(r => r.name === name);
+  findBy (context, field, value) {
+    return this._data[context].find(r => r[field] === value);
   }
 }

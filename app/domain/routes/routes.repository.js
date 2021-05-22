@@ -4,6 +4,6 @@ export class RoutesRepository {
   }
 
   findByName (name) {
-    return this._driver.findRouteByName(name);
+    return this._driver.findBy('routes', 'name', name);
   }
 }
