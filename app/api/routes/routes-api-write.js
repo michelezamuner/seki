@@ -1,10 +1,10 @@
 import { RouteEntity } from '../../domain/routes/route.entity.js';
 
 export class RoutesApiWrite {
-  constructor (dispatcher, routesRepository, errorPresenter) {
+  constructor (dispatcher, routesRepository, presenter) {
     this._dispatcher = dispatcher;
     this._routesRepository = routesRepository;
-    this._errorPresenter = errorPresenter;
+    this._presenter = presenter;
   }
 
   create (routesApiCreateRequest) {
@@ -15,12 +15,12 @@ export class RoutesApiWrite {
         error: 'Duplicated route',
         data: routeName
       };
-      this._errorPresenter.present(routesApiErrorResponse);
+      this._presenter.presentError(routesApiErrorResponse);
 
       return;
     }
 
     const route = new RouteEntity(routeName, routeTrack);
-    this._dispatcher.dispatch('app.routes.create', route);
+    this._dispatcher.dispatch('app.create', { context: 'routes', data: route });
   }
 }

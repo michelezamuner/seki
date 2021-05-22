@@ -3,7 +3,7 @@ export class WebRoutesErrorPresenter {
     this._webRoutesErrorView = webRoutesErrorView;
   }
 
-  present (webRoutesErrorResponse) {
+  presentError (webRoutesErrorResponse) {
     const error = webRoutesErrorResponse.error;
     const webRoutesErrorViewModel = {
       message: error

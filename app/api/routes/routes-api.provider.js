@@ -1,4 +1,5 @@
 import { RoutesApiWrite } from './routes-api-write.js';
+import { RoutesApiRead } from './routes-api-read.js';
 import { RoutesRepository } from '../../domain/routes/routes.repository.js';
 
 export const RoutesApiProvider = {
@@ -11,8 +12,12 @@ export const RoutesApiProvider = {
     const dispatcher = container.get('dispatcher');
     const storage = container.get('storage');
     const routesRepository = new RoutesRepository(storage);
-    container.bind('api.routes.write', errorPresenter => {
-      return new RoutesApiWrite(dispatcher, routesRepository, errorPresenter);
+    container.bind('api.routes.write', presenter => {
+      return new RoutesApiWrite(dispatcher, routesRepository, presenter);
+    });
+
+    container.bind('api.routes.read', presenter => {
+      return new RoutesApiRead(dispatcher, storage, presenter);
     });
 
     this._provided = true;

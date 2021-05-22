@@ -8,5 +8,8 @@ export const Leaflet = {
   },
   control: function (config) {
     return L.Control.extend(config);
+  },
+  gpx: function (track, config) {
+    return new L.GPX(track, config);
   }
 };

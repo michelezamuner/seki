@@ -7,7 +7,11 @@ export const GsheetsStorageProvider = {
       return;
     }
 
-    container.bind('storage.gsheets', GsheetsStorage);
+    const dispatcher = container.get('dispatcher');
+    const gsheetsStorage = new GsheetsStorage(dispatcher);
+    dispatcher.register('app.create', command => {
+      gsheetsStorage.create(command.context, command.data);
+    });
 
     this._provided = true;
   }

@@ -5,6 +5,8 @@ import { WebRoutesCreatePresenter } from './web-routes-create.presenter.js';
 import { WebRoutesCreateController } from './web-routes-create.controller.js';
 import { WebRoutesErrorView } from './web-routes-error.view.js';
 import { WebRoutesErrorPresenter } from './web-routes-error.presenter.js';
+import { WebRoutesView } from './web-routes.view.js';
+import { WebRoutesPresenter } from './web-routes.presenter.js';
 
 export const WebRoutesProvider = {
   _provided: false,
@@ -40,6 +42,22 @@ export const WebRoutesProvider = {
       });
 
       webRoutesCreateController.load();
+    });
+
+    dispatcher.register('ui.dom', dom => {
+      const leaflet = container.get('leaflet');
+      const webRoutesView = new WebRoutesView(dom, leaflet);
+      const webRoutesPresenter = new WebRoutesPresenter(webRoutesView);
+      const routesApiRead = container.get('api.routes.read', webRoutesPresenter);
+      dispatcher.register('ui.web-map.on-map-created', map => {
+        webRoutesView.onMapCreated(map);
+      });
+      dispatcher.register('api.routes.created', route => {
+        const webRoutesResponse = {
+          route: route
+        };
+        webRoutesPresenter.present(webRoutesResponse);
+      });
     });
 
     this._provided = true;

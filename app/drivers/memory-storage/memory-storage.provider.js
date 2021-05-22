@@ -7,7 +7,12 @@ export const MemoryStorageProvider = {
       return;
     }
 
-    container.bind('storage.memory', MemoryStorage);
+    const dispatcher = container.get('dispatcher');
+    const memoryStorage = new MemoryStorage(dispatcher);
+    dispatcher.register('app.created', event => {
+      memoryStorage.create(event.context, event.data);
+    });
+    container.bind('storage', memoryStorage);
 
     this._provided = true;
   }
