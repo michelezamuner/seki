@@ -7,6 +7,8 @@ export class WebRoutesView {
 
   onMapCreated (map) {
     this._map = map;
+    this._map.createPane('routes');
+    this._map.getPane('routes').style.zIndex = 650;
   }
 
   render (webRoutesViewModel) {
@@ -15,8 +17,13 @@ export class WebRoutesView {
     }
 
     const route = webRoutesViewModel.route;
-    // @TODO: add route to pane
-    const routeLayer = this._leaflet.gpx(route.track, { async: true });
+    const routeLayer = this._leaflet.gpx(
+      route.track,
+      {
+        async: true,
+        polyline_options: { pane: 'routes' }
+      }
+    );
     routeLayer.on('loaded', e => this._map.fitBounds(e.target.getBounds()));
     // @TODO: add box
     routeLayer.addTo(this._map);
