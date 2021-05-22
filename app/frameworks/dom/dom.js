@@ -1,16 +1,5 @@
 /* global document, window, alert */
 export const Dom = {
-  addEventListener: function (eventName, listener) {
-    document.addEventListener(eventName, event => {
-      listener(event.detail);
-    });
-  },
-  dispatchEvent: function (eventName, data) {
-    const event = data
-      ? new CustomEvent(eventName, { detail: data })
-      : new Event(eventName);
-    document.dispatchEvent(event);
-  },
   keyCallback: function (key) {
     return callback => {
       return e => {
