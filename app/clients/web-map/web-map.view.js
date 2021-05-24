@@ -1,12 +1,8 @@
 export class WebMapView {
-  constructor (dom, leaflet) {
+  constructor (dispatcher, dom, leaflet) {
+    this._dispatcher = dispatcher;
     this._dom = dom;
     this._leaflet = leaflet;
-    this._onMapCreatedListeners = [];
-  }
-
-  registerOnMapCreatedListener (listener) {
-    this._onMapCreatedListeners.push(listener);
   }
 
   render (webMapLoadViewModel) {
@@ -15,9 +11,7 @@ export class WebMapView {
     mapElement.style.width = '100%';
 
     const map = this._leaflet.map('map');
-    for (const listener of this._onMapCreatedListeners) {
-      listener(map);
-    }
+    this._dispatcher.dispatch('ui.map', map);
     map.setView(
       webMapLoadViewModel.view.latlng,
       webMapLoadViewModel.view.zoom

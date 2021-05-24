@@ -18,7 +18,7 @@ export const WebPaletteProvider = {
     const dispatcher = container.get('dispatcher');
 
     dispatcher.register('ui.dom', dom => {
-      dispatcher.register('ui.web-map.on-map-created', map => {
+      dispatcher.register('ui.map', map => {
         const leaflet = container.get('leaflet');
         const config = container.get('config.palette');
         const webPaletteView = new WebPaletteView(dom, leaflet, config);

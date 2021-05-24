@@ -49,7 +49,7 @@ export const WebRoutesProvider = {
       const webRoutesView = new WebRoutesView(dom, leaflet);
       const webRoutesPresenter = new WebRoutesPresenter(webRoutesView);
       const routesApiRead = container.get('api.routes.read', webRoutesPresenter);
-      dispatcher.register('ui.web-map.on-map-created', map => {
+      dispatcher.register('ui.map', map => {
         webRoutesView.onMapCreated(map);
       });
       dispatcher.register('api.routes.created', route => {

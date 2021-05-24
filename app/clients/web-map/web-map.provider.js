@@ -16,10 +16,7 @@ export const WebMapProvider = {
     const dispatcher = container.get('dispatcher');
     dispatcher.registerAsync('ui.dom', dom => {
       const leaflet = container.get('leaflet');
-      const webMapView = new WebMapView(dom, leaflet);
-      dispatcher.dispatch('ui.web-map.on-map-created', listener => {
-        webMapView.registerOnMapCreatedListener(listener);
-      });
+      const webMapView = new WebMapView(dispatcher, dom, leaflet);
       const presenter = new WebMapPresenter(webMapView);
       const mapApi = container.get('api.map', presenter);
       const webMapController = new WebMapController(mapApi);
