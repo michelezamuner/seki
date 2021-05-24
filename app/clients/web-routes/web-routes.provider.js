@@ -44,20 +44,10 @@ export const WebRoutesProvider = {
       webRoutesCreateController.load();
     });
 
-    dispatcher.register('ui.dom', dom => {
-      const leaflet = container.get('leaflet');
-      const webRoutesView = new WebRoutesView(dom, leaflet);
+    dispatcher.register(['ui.dom', 'ui.map', 'ui.leaflet'], (dom, map, leaflet) => {
+      const webRoutesView = new WebRoutesView(dom, leaflet, map);
       const webRoutesPresenter = new WebRoutesPresenter(webRoutesView);
       const routesApiRead = container.get('api.routes.read', webRoutesPresenter);
-      dispatcher.register('ui.map', map => {
-        webRoutesView.onMapCreated(map);
-      });
-      dispatcher.register('api.routes.created', route => {
-        const webRoutesResponse = {
-          route: route
-        };
-        webRoutesPresenter.present(webRoutesResponse);
-      });
     });
 
     this._provided = true;

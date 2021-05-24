@@ -1,25 +1,33 @@
-/* global document */
 export const Dispatcher = {
+  _listeners: [],
+  _dispatched: {},
   dispatch: function (eventName, data) {
-    const event = data
-      ? new CustomEvent(eventName, { detail: data })
-      : new Event(eventName);
-    document.dispatchEvent(event);
-  },
-  register: function (eventName, listener) {
-    document.addEventListener(eventName, event => {
-      if (typeof event.detail === 'function') {
-        event.detail(listener);
-      } else {
-        listener(event.detail);
+    this._dispatched[eventName] = data;
+    for (const listener of this._listeners) {
+      if (!this._ready(eventName, listener.deps)) {
+        continue;
       }
+      setTimeout(() => {
+        listener.callback(...listener.deps.map(dep => this._dispatched[dep]));
+      });
+    }
+  },
+  register: function (eventsNames, listener) {
+    this._listeners.push({
+      deps: Array.isArray(eventsNames) ? eventsNames : [eventsNames],
+      callback: listener
     });
   },
-  registerAsync: function (eventName, listener) {
-    document.addEventListener(eventName, event => {
-      setTimeout(() => {
-        listener(event.detail);
-      }, 0);
-    });
+  _ready: function (currentEvent, deps) {
+    if (!deps.includes(currentEvent)) {
+      return false;
+    }
+    for (const eventName of deps) {
+      if (this._dispatched[eventName] === undefined) {
+        return false;
+      }
+    }
+
+    return true;
   }
 };

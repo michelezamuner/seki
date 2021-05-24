@@ -1,3 +1,4 @@
+/* global window */
 import { Dom } from './dom.js';
 
 export const DomProvider = {
@@ -7,7 +8,7 @@ export const DomProvider = {
       return;
     }
     const dispatcher = container.get('dispatcher');
-    dispatcher.register('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
       dispatcher.dispatch('ui.dom', Dom);
     });
     this._provided = true;

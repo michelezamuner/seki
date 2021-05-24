@@ -1,21 +1,13 @@
 export class WebRoutesView {
-  constructor (dom, leaflet) {
+  constructor (dom, leaflet, map) {
     this._dom = dom;
     this._leaflet = leaflet;
-    this._map = null;
-  }
-
-  onMapCreated (map) {
     this._map = map;
     this._map.createPane('routes');
     this._map.getPane('routes').style.zIndex = 650;
   }
 
   render (webRoutesViewModel) {
-    if (this._map === null) {
-      throw new Error('No map has been set');
-    }
-
     const route = webRoutesViewModel.route;
     const routeLayer = this._leaflet.gpx(
       route.track,

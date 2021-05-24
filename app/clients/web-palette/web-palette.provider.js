@@ -17,26 +17,23 @@ export const WebPaletteProvider = {
 
     const dispatcher = container.get('dispatcher');
 
-    dispatcher.register('ui.dom', dom => {
-      dispatcher.register('ui.map', map => {
-        const leaflet = container.get('leaflet');
-        const config = container.get('config.palette');
-        const webPaletteView = new WebPaletteView(dom, leaflet, config);
-        const webPalettePresenter = new WebPalettePresenter(webPaletteView);
-        const webPaletteController = new WebPaletteController(dispatcher);
+    dispatcher.register(['ui.dom', 'ui.map', 'ui.leaflet'], (dom, map, leaflet) => {
+      const config = container.get('config.palette');
+      const webPaletteView = new WebPaletteView(dom, leaflet, config);
+      const webPalettePresenter = new WebPalettePresenter(webPaletteView);
+      const webPaletteController = new WebPaletteController(dispatcher);
 
-        webPaletteController.registerOnLoadListener(map => {
-          const webPaletteLoadResponse = {
-            map: map
-          };
-          webPalettePresenter.present(webPaletteLoadResponse);
-        });
-        webPaletteView.registerOnCommandListener(command => {
-          webPaletteController.sendCommand(command);
-        });
-
-        webPaletteController.load(map);
+      webPaletteController.registerOnLoadListener(map => {
+        const webPaletteLoadResponse = {
+          map: map
+        };
+        webPalettePresenter.present(webPaletteLoadResponse);
       });
+      webPaletteView.registerOnCommandListener(command => {
+        webPaletteController.sendCommand(command);
+      });
+
+      webPaletteController.load(map);
     });
 
     this._provided = true;

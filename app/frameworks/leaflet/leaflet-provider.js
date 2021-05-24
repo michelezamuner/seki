@@ -6,6 +6,11 @@ export const LeafletProvider = {
     if (this._provided) {
       return;
     }
-    container.bind('leaflet', Leaflet);
+    const dispatcher = container.get('dispatcher');
+    dispatcher.register('ui.dom', dom => {
+      dispatcher.dispatch('ui.leaflet', Leaflet);
+    });
+
+    this._provided = true;
   }
 };
