@@ -50,7 +50,7 @@ export class Gapi {
     }).then(response => {
       this._updateIdsToRows(table, values, row);
       this._updateHighestIds(table, values);
-      callback(values.id);
+      callback();
     }, e => { console.log(e); });
   }
 
