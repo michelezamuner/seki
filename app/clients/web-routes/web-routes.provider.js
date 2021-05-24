@@ -1,4 +1,4 @@
-import { DomProvider } from '../../frameworks/dom/dom-provider.js';
+import { DomProvider } from '../../frameworks/dom/dom.provider.js';
 import { WebMapProvider } from '../web-map/web-map.provider.js';
 import { WebRoutesCreateView } from './web-routes-create.view.js';
 import { WebRoutesCreatePresenter } from './web-routes-create.presenter.js';

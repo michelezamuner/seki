@@ -1,3 +1,4 @@
+import { GapiProvider } from '../../frameworks/gapi/gapi.provider.js';
 import { GsheetsStorage } from './gsheets-storage.js';
 
 export const GsheetsStorageProvider = {
@@ -7,10 +8,14 @@ export const GsheetsStorageProvider = {
       return;
     }
 
+    GapiProvider.provide(container);
+
     const dispatcher = container.get('dispatcher');
-    const gsheetsStorage = new GsheetsStorage(dispatcher);
-    dispatcher.register('app.create', command => {
-      gsheetsStorage.create(command.context, command.data);
+    dispatcher.register('gapi', gapi => {
+      const gsheetsStorage = new GsheetsStorage(dispatcher, gapi);
+      dispatcher.register('app.create', command => {
+        gsheetsStorage.create(command.context, command.data);
+      });
     });
 
     this._provided = true;

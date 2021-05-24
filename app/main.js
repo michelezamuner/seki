@@ -15,6 +15,7 @@ import { MemoryStorageProvider } from './drivers/memory-storage/memory-storage.p
 Container.bind('dispatcher', Dispatcher);
 Container.bind('config.map', config.map);
 Container.bind('config.palette', config.palette);
+Container.bind('config.gapi', config.gapi);
 
 GsheetsStorageProvider.provide(Container);
 MemoryStorageProvider.provide(Container);

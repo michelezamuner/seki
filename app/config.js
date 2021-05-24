@@ -9,5 +9,10 @@ export const config = {
   },
   palette: {
     position: 'bottomleft'
+  },
+  gapi: {
+    apiKey: 'AIzaSyBez6d7e86JN57uNZCL0dbKa96oxRXxulY',
+    clientId: '332077294701-m7rfvjb8jofaa99f4bnh2jb169ttdc25.apps.googleusercontent.com',
+    spreadsheetId: '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4'
   }
 };

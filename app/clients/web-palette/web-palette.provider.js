@@ -1,5 +1,5 @@
-import { DomProvider } from '../../frameworks/dom/dom-provider.js';
-import { LeafletProvider } from '../../frameworks/leaflet/leaflet-provider.js';
+import { DomProvider } from '../../frameworks/dom/dom.provider.js';
+import { LeafletProvider } from '../../frameworks/leaflet/leaflet.provider.js';
 import { WebMapProvider } from '../web-map/web-map.provider.js';
 import { WebPaletteController } from './web-palette.controller.js';
 import { WebPaletteView } from './web-palette.view.js';
