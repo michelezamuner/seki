@@ -1,45 +1,17 @@
 export class WebRoutesCreateController {
-  constructor (routesApiWrite) {
+  constructor (dispatcher, routesApiWrite) {
+    this._dispatcher = dispatcher;
     this._routesApiWrite = routesApiWrite;
-
-    this._onLoadListeners = [];
-    this._onCreateCommandListeners = [];
   }
 
-  registerOnLoadListener (listener) {
-    this._onLoadListeners.push(listener);
+  createRoute (name) {
+    this._dispatcher.dispatch('ui.web-routes.create', name);
   }
 
-  registerOnCreateCommandListener (listener) {
-    this._onCreateCommandListeners.push(listener);
-  }
-
-  load () {
-    for (const listener of this._onLoadListeners) {
-      listener();
-    }
-  }
-
-  onCommand (command) {
-    const indexOfLarge = command.indexOf('create route');
-    const indexOfShort = command.indexOf('c r');
-    if (indexOfLarge !== 0 && indexOfShort !== 0) {
-      return;
-    }
-
-    const routeName = indexOfLarge === 0
-      ? command.substring(13)
-      : command.substring(4);
-
-    for (const listener of this._onCreateCommandListeners) {
-      listener(routeName);
-    }
-  }
-
-  onTrackLoaded (track, routeName) {
+  loadRoute (name, track) {
     const routesApiCreateRequest = {
-      track: track,
-      name: routeName
+      name: name,
+      track: track
     };
     this._routesApiWrite.create(routesApiCreateRequest);
   }

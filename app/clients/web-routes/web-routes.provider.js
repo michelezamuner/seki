@@ -24,24 +24,30 @@ export const WebRoutesProvider = {
       const webRoutesErrorView = new WebRoutesErrorView(dom);
       const webRoutesErrorPresenter = new WebRoutesErrorPresenter(webRoutesErrorView);
       const routesApiWrite = apiFactory(webRoutesErrorPresenter);
-      const webRoutesCreateView = new WebRoutesCreateView(dom);
+      const webRoutesCreateView = new WebRoutesCreateView(dispatcher, dom);
       const webRoutesCreatePresenter = new WebRoutesCreatePresenter(webRoutesCreateView);
-      const webRoutesCreateController = new WebRoutesCreateController(routesApiWrite);
+      const webRoutesCreateController = new WebRoutesCreateController(dispatcher, routesApiWrite);
 
       dispatcher.register('command', command => {
-        webRoutesCreateController.onCommand(command);
+        const indexOfLarge = command.indexOf('create route');
+        const indexOfShort = command.indexOf('c r');
+        if (indexOfLarge !== 0 && indexOfShort !== 0) {
+          return;
+        }
+
+        const routeName = indexOfLarge === 0
+          ? command.substring(13)
+          : command.substring(4);
+        webRoutesCreateController.createRoute(routeName);
       });
-      webRoutesCreateController.registerOnLoadListener(() => {
-        webRoutesCreatePresenter.present();
+      dispatcher.register('ui.web-routes.create', name => {
+        webRoutesCreateView.onCreateRoute(name);
       });
-      webRoutesCreateController.registerOnCreateCommandListener(routeName => {
-        webRoutesCreateView.onCreateCommand(routeName);
-      });
-      webRoutesCreateView.registerOnTrackLoadedListener((track, routeName) => {
-        webRoutesCreateController.onTrackLoaded(track, routeName);
+      dispatcher.register('ui.web-routes.loaded', data => {
+        webRoutesCreateController.loadRoute(data.routeName, data.track);
       });
 
-      webRoutesCreateController.load();
+      webRoutesCreatePresenter.present();
     });
 
     dispatcher.register(['ui.dom', 'ui.map', 'ui.leaflet', 'api.routes.read'], (dom, map, leaflet, apiFactory) => {

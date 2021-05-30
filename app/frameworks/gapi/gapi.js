@@ -40,7 +40,7 @@ export class Gapi {
   }
 
   save (table, values, callback) {
-    // const row = this._getRow(table, values);
+    const row = this._getRow(table, values);
     callback();
     // this._gapi.client.sheets.spreadsheets.values.update({
     //   spreadsheetId: this._spreadsheetId,
@@ -56,19 +56,35 @@ export class Gapi {
   }
 
   _getRow (table, values) {
-    const row = this._idsToRows[table][values.id];
+    const row = this._getRowFromId(table, values.id);
     if (row) {
       return row;
     }
 
+    const emptyRow = this._getFirstEmptyRow(table);
+    if (emptyRow) {
+      return emptyRow;
+    }
+
+    return Object.keys(this._idsToRows[table]).length + 2;
+  }
+
+  _getRowFromId (table, id) {
+    if (!this._idsToRows[table]) {
+      this._idsToRows[table] = {};
+
+      return;
+    }
+
+    return this._idsToRows[table][id];
+  }
+
+  _getFirstEmptyRow (table) {
     if (!this._emptyRows[table]) {
       this._emptyRows[table] = [];
     }
-    if (this._emptyRows[table].length) {
-      return this._emptyRows[table][0];
-    }
 
-    return this._idsToRows[table].length + 1;
+    return this._emptyRows[table].length ? this._emptyRows[table][0] : undefined;
   }
 
   _updateIdsToRows (table, values, row) {
