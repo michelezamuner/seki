@@ -1,11 +1,15 @@
 export class RouteEntity {
-  constructor (name, track) {
+  constructor (id, name, track) {
+    this._id = id;
     this._name = name;
     this._track = track;
-    this._id = null;
     this._mountains = [];
     this._gain = 0;
     this._time = 0;
+  }
+
+  get id () {
+    return this._id;
   }
 
   get name () {
@@ -22,14 +26,6 @@ export class RouteEntity {
 
   set track (track) {
     this._track = track;
-  }
-
-  get id () {
-    return this._id;
-  }
-
-  set id (id) {
-    this._id = id;
   }
 
   get mountains () {

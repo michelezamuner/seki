@@ -20,10 +20,10 @@ export const WebRoutesProvider = {
 
     const dispatcher = container.get('dispatcher');
 
-    dispatcher.register('ui.dom', dom => {
+    dispatcher.register(['ui.dom', 'api.routes.write'], (dom, apiFactory) => {
       const webRoutesErrorView = new WebRoutesErrorView(dom);
       const webRoutesErrorPresenter = new WebRoutesErrorPresenter(webRoutesErrorView);
-      const routesApiWrite = container.get('api.routes.write', webRoutesErrorPresenter);
+      const routesApiWrite = apiFactory(webRoutesErrorPresenter);
       const webRoutesCreateView = new WebRoutesCreateView(dom);
       const webRoutesCreatePresenter = new WebRoutesCreatePresenter(webRoutesCreateView);
       const webRoutesCreateController = new WebRoutesCreateController(routesApiWrite);
@@ -44,10 +44,10 @@ export const WebRoutesProvider = {
       webRoutesCreateController.load();
     });
 
-    dispatcher.register(['ui.dom', 'ui.map', 'ui.leaflet'], (dom, map, leaflet) => {
+    dispatcher.register(['ui.dom', 'ui.map', 'ui.leaflet', 'api.routes.read'], (dom, map, leaflet, apiFactory) => {
       const webRoutesView = new WebRoutesView(dom, leaflet, map);
       const webRoutesPresenter = new WebRoutesPresenter(webRoutesView);
-      const routesApiRead = container.get('api.routes.read', webRoutesPresenter);
+      apiFactory(webRoutesPresenter);
     });
 
     this._provided = true;

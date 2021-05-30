@@ -8,6 +8,9 @@ export const Dispatcher = {
         continue;
       }
       setTimeout(() => {
+        if (typeof listener.callback !== 'function') {
+          throw new Error(`Invalid listener for event ${eventName}: ${listener.callback}`);
+        }
         listener.callback(...listener.deps.map(dep => this._dispatched[dep]));
       });
     }

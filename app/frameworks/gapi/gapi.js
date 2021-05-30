@@ -40,18 +40,19 @@ export class Gapi {
   }
 
   save (table, values, callback) {
-    const row = this._getRow(values);
-    this._gapi.client.sheets.spreadsheets.values.update({
-      spreadsheetId: this._spreadsheetId,
-      range: `${table}!A${row}:Z`,
-      valueInputOption: 'RAW'
-    }, {
-      values: values
-    }).then(response => {
-      this._updateIdsToRows(table, values, row);
-      this._updateHighestIds(table, values);
-      callback();
-    }, e => { console.log(e); });
+    // const row = this._getRow(table, values);
+    callback();
+    // this._gapi.client.sheets.spreadsheets.values.update({
+    //   spreadsheetId: this._spreadsheetId,
+    //   range: `${table}!A${row}:Z`,
+    //   valueInputOption: 'RAW'
+    // }, {
+    //   values: values
+    // }).then(response => {
+    //   this._updateIdsToRows(table, values, row);
+    //   this._updateHighestIds(table, values);
+    //   callback();
+    // }, e => { console.log(e); });
   }
 
   _getRow (table, values) {

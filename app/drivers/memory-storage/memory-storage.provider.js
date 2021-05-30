@@ -12,7 +12,7 @@ export const MemoryStorageProvider = {
     dispatcher.register('app.created', event => {
       memoryStorage.create(event.context, event.data);
     });
-    container.bind('storage', memoryStorage);
+    dispatcher.dispatch('storage.read', memoryStorage);
 
     this._provided = true;
   }

@@ -13,6 +13,7 @@ export const GsheetsStorageProvider = {
     const dispatcher = container.get('dispatcher');
     dispatcher.register('gapi', gapi => {
       const gsheetsStorage = new GsheetsStorage(dispatcher, gapi);
+      dispatcher.dispatch('app.idGenerator', gsheetsStorage);
       dispatcher.register('app.create', command => {
         gsheetsStorage.create(command.context, command.data);
       });

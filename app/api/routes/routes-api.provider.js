@@ -1,6 +1,8 @@
 import { RoutesApiWrite } from './routes-api-write.js';
 import { RoutesApiRead } from './routes-api-read.js';
 import { RoutesRepository } from '../../domain/routes/routes.repository.js';
+import { RoutesFactory } from '../../domain/routes/routes.factory.js';
+import { RoutesService } from '../../domain/routes/routes.service.js';
 
 export const RoutesApiProvider = {
   _provided: false,
@@ -10,13 +12,17 @@ export const RoutesApiProvider = {
     }
 
     const dispatcher = container.get('dispatcher');
-    const storage = container.get('storage');
-    const routesRepository = new RoutesRepository(storage);
-    container.bind('api.routes.write', presenter => {
-      return new RoutesApiWrite(dispatcher, routesRepository, presenter);
-    });
-    container.bind('api.routes.read', presenter => {
-      return new RoutesApiRead(dispatcher, storage, presenter);
+    dispatcher.register(['storage.read', 'app.idGenerator'], (readStorage, idGenerator) => {
+      dispatcher.dispatch('api.routes.write', presenter => {
+        const routesRepository = new RoutesRepository(readStorage);
+        const routesFactory = new RoutesFactory(idGenerator);
+        const routesService = new RoutesService(routesRepository, routesFactory);
+
+        return new RoutesApiWrite(dispatcher, routesService, presenter);
+      });
+      dispatcher.dispatch('api.routes.read', presenter => {
+        return new RoutesApiRead(dispatcher, readStorage, presenter);
+      });
     });
 
     this._provided = true;

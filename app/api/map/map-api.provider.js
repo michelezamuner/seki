@@ -7,8 +7,9 @@ export const MapApiProvider = {
       return;
     }
 
+    const dispatcher = container.get('dispatcher');
     const config = container.get('config.map');
-    container.bind('api.map', presenter => {
+    dispatcher.dispatch('api.map', presenter => {
       return new MapApi(config, presenter);
     });
 

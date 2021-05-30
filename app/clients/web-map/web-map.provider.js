@@ -14,10 +14,10 @@ export const WebMapProvider = {
     LeafletProvider.provide(container);
 
     const dispatcher = container.get('dispatcher');
-    dispatcher.register(['ui.dom', 'ui.leaflet'], (dom, leaflet) => {
+    dispatcher.register(['ui.dom', 'ui.leaflet', 'api.map'], (dom, leaflet, apiFactory) => {
       const webMapView = new WebMapView(dispatcher, dom, leaflet);
       const presenter = new WebMapPresenter(webMapView);
-      const mapApi = container.get('api.map', presenter);
+      const mapApi = apiFactory(presenter);
       const webMapController = new WebMapController(mapApi);
 
       webMapController.load();
