@@ -1,4 +1,6 @@
 /* global google, gapi, L */
+import GapiRoutesRepository from './framework/gapi_routes_repository.js';
+import ListRoutes from './features/list_routes.js';
 
 const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
@@ -9,20 +11,13 @@ let gapiInited = false;
 let gisInited = false;
 
 async function draw() {
-  const routesData = (await window.gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId: '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4',
-    range: 'routes',
-  })).result.values;
-  const chunksData = (await window.gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId: '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4',
-    range: 'gpx_chunks',
-  })).result.values;
+  const routesRepository = new GapiRoutesRepository(window.gapi.client, '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4');
+  const listRoutes = new ListRoutes(routesRepository);
 
-  for (const [i, chunks] of chunksData.entries()) {
-    const name = routesData[i + 1][1];
-    const box = `<h3>${name}</h3>`;
-    const gpx = chunks.join('');
-    const layer = new L.GPX(gpx, {
+  const routes = await listRoutes.exec();
+
+  for (const route of routes) {
+    const layer = new L.GPX(route.track, {
       async: true,
       marker_options: {
         startIconUrl: '',
@@ -30,7 +25,7 @@ async function draw() {
         shadowUrl: '',
       },
     });
-    layer.bindPopup(box);
+    layer.bindPopup(`<h3>${route.name}</h3>`);
     layer.addTo(window.map);
   }
 
@@ -48,10 +43,10 @@ function login() {
   if (gapi.client.getToken() === null) {
     // Prompt the user to select a Google Account and ask for consent to share their data
     // when establishing a new session.
-    tokenClient.requestAccessToken({prompt: 'consent'});
+    tokenClient.requestAccessToken({ prompt: 'consent' });
   } else {
     // Skip display of account chooser and consent dialog for an existing session.
-    tokenClient.requestAccessToken({prompt: ''});
+    tokenClient.requestAccessToken({ prompt: '' });
   }
 }
 

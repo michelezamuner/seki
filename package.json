@@ -1,10 +1,11 @@
 {
   "name": "seki",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "serve": "npx serve --no-clipboard --listen 8000",
     "lint": "eslint app/ tests/",
-    "test": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest",
+    "test": "node --use_strict --unhandled-rejections=strict --experimental-vm-modules node_modules/.bin/jest",
     "coverage": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
   },
   "license": "ISC",
@@ -22,7 +23,8 @@
     "collectCoverageFrom": ["**/*.js"],
     "coverageDirectory": "/tmp",
     "coveragePathIgnorePatterns": [],
-    "coverageReporters": ["text"]
+    "coverageReporters": ["text"],
+    "transform": {}
   },
   "eslintConfig": {
     "env": {
@@ -36,12 +38,13 @@
       "sourceType": "module"
     },
     "rules": {
+      "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline"}],
       "indent": ["error", 2],
       "linebreak-style": ["error", "unix"],
+      "object-curly-spacing": ["error", "always"],
       "quotes": ["error", "single"],
       "semi": ["error", "always"],
-      "space-before-function-paren": ["error", "never"],
-      "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline"}]
+      "space-before-function-paren": ["error", "never"]
     },
     "globals": {
       "describe": "readonly",
