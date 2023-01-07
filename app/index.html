@@ -8,5 +8,7 @@
   </head>
   <body>
     <script type="module" src="web.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="document.dispatchEvent(new Event('gapiLoaded'))"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="document.dispatchEvent(new Event('gisLoaded'))"></script>
   </body>
 </html>
