@@ -1,0 +1,41 @@
+{
+  "name": "seki",
+  "version": "0.0.1",
+  "scripts": {
+    "serve": "npx serve --no-clipboard --listen 8000",
+    "lint": "eslint app/ tests/",
+    "test": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest",
+    "coverage": "node --use_strict --unhandled-rejections=strict node_modules/.bin/jest --coverage"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "8.31.0",
+    "jest": "29.3.1",
+    "serve": "14.1.2"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": false,
+      "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {
+      "indent": ["error", 2],
+      "linebreak-style": ["error", "unix"],
+      "quotes": ["error", "single"],
+      "semi": ["error", "always"],
+      "space-before-function-paren": ["error", "never"],
+      "comma-dangle": ["error", {"arrays": "always-multiline", "objects": "always-multiline"}]
+    },
+    "globals": {
+      "describe": "readonly",
+      "it": "readonly",
+      "expect": "readonly"
+    }
+  }
+}
