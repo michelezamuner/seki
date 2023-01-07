@@ -1,19 +1,48 @@
-/* global google, gapi */
+/* global google, gapi, L */
 
 const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 let config;
 let tokenClient;
 let gapiInited = false;
 let gisInited = false;
 
+async function draw() {
+  const routesData = (await window.gapi.client.sheets.spreadsheets.values.get({
+    spreadsheetId: '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4',
+    range: 'routes',
+  })).result.values;
+  const chunksData = (await window.gapi.client.sheets.spreadsheets.values.get({
+    spreadsheetId: '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4',
+    range: 'gpx_chunks',
+  })).result.values;
+
+  for (const [i, chunks] of chunksData.entries()) {
+    const name = routesData[i + 1][1];
+    const box = `<h3>${name}</h3>`;
+    const gpx = chunks.join('');
+    const layer = new L.GPX(gpx, {
+      async: true,
+      marker_options: {
+        startIconUrl: '',
+        endIconUrl: '',
+        shadowUrl: '',
+      },
+    });
+    layer.bindPopup(box);
+    layer.addTo(window.map);
+  }
+
+  document.getElementById('map').style.cursor='move';
+}
+
 function login() {
   tokenClient.callback = async(resp) => {
     if (resp.error !== undefined) {
       throw (resp);
     }
-    console.log('LOGGED');
+    await draw();
   };
 
   if (gapi.client.getToken() === null) {
@@ -56,3 +85,14 @@ document.addEventListener('gisLoaded', async() => {
   }
   gisInited = true;
 });
+
+window.map = new L.map('map').setView([45.9741, 12.3095], 12);
+
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+  maxZoom: 18,
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  id: 'mapbox/outdoors-v11',
+  tileSize: 512,
+  zoomOffset: -1,
+}).addTo(window.map);
