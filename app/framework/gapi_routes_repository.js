@@ -1,9 +1,9 @@
 import Route from '../domain/route.js';
 
 export default class GapiRoutesRepository {
-  constructor(gapiClient, spreadsheetId) {
+  constructor(gapiClient, config) {
     this._gapiClient = gapiClient;
-    this._spreadsheetId = spreadsheetId;
+    this._config = config;
   }
 
   async list() {
@@ -20,7 +20,7 @@ export default class GapiRoutesRepository {
 
   async _load(range) {
     return (await this._gapiClient.sheets.spreadsheets.values.get({
-      spreadsheetId: this._spreadsheetId,
+      spreadsheetId: this._config.spreadsheetId,
       range: range,
     })).result.values;
   }
