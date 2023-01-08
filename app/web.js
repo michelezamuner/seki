@@ -1,5 +1,6 @@
 /* global google, gapi, L */
 import GapiRoutesRepository from './framework/gapi_routes_repository.js';
+import ListRoutesPresenter from './framework/clients/web/list_routes_presenter.js';
 import ListRoutes from './features/list_routes.js';
 
 const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
@@ -12,24 +13,10 @@ let gisInited = false;
 
 async function draw() {
   const routesRepository = new GapiRoutesRepository(window.gapi.client, '1UShRn42inpoiWNgBlfQaV6OFtxrbeEXO5bmm1mFNjp4');
-  const listRoutes = new ListRoutes(routesRepository);
+  const listRoutesPresenter = new ListRoutesPresenter(L);
+  const listRoutes = new ListRoutes(routesRepository, listRoutesPresenter);
 
-  const routes = await listRoutes.exec();
-
-  for (const route of routes) {
-    const layer = new L.GPX(route.track, {
-      async: true,
-      marker_options: {
-        startIconUrl: '',
-        endIconUrl: '',
-        shadowUrl: '',
-      },
-    });
-    layer.bindPopup(`<h3>${route.name}</h3>`);
-    layer.addTo(window.map);
-  }
-
-  document.getElementById('map').style.cursor='move';
+  await listRoutes.exec();
 }
 
 function login() {
@@ -80,14 +67,3 @@ document.addEventListener('gisLoaded', async() => {
   }
   gisInited = true;
 });
-
-window.map = new L.map('map').setView([45.9741, 12.3095], 12);
-
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-  maxZoom: 18,
-  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  id: 'mapbox/outdoors-v11',
-  tileSize: 512,
-  zoomOffset: -1,
-}).addTo(window.map);

@@ -44,12 +44,14 @@
       "object-curly-spacing": ["error", "always"],
       "quotes": ["error", "single"],
       "semi": ["error", "always"],
-      "space-before-function-paren": ["error", "never"]
+      "space-before-function-paren": ["error", "never"],
+      "space-infix-ops": ["error"]
     },
     "globals": {
       "describe": "readonly",
       "it": "readonly",
-      "expect": "readonly"
+      "expect": "readonly",
+      "jest": "readonly"
     }
   }
 }

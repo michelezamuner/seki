@@ -1,17 +1,20 @@
+import { jest } from '@jest/globals';
 import ListRoutes from '../../app/features/list_routes.js';
 
 describe('list routes', () => {
   it('list routes', async() => {
-    const routes = ['route1', 'route2'];
-    const routesRepository = {
-      list: async() => {
-        return new Promise(resolve => resolve(routes));
-      },
+    const promise = 'promise';
+    const repository = {
+      list: () => promise,
     };
-    const listRoutes = new ListRoutes(routesRepository);
+    const presenter = {
+      present: jest.fn(),
+    };
 
-    const actualRoutes = await listRoutes.exec();
+    const listRoutes = new ListRoutes(repository, presenter);
 
-    expect(actualRoutes).toBe(routes);
+    await listRoutes.exec();
+
+    expect(presenter.present).toBeCalledWith(promise);
   });
 });

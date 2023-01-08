@@ -1,9 +1,10 @@
 export default class ListRoutes {
-  constructor(routesRepository) {
-    this._routesRepository = routesRepository;
+  constructor(repository, presenter) {
+    this._repository = repository;
+    this._presenter = presenter;
   }
 
   async exec() {
-    return await this._routesRepository.list();
+    await this._presenter.present(this._repository.list());
   }
 }
