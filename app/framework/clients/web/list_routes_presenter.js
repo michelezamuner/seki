@@ -4,7 +4,8 @@ export default class ListRoutesPresenter {
   }
 
   async present(routesPromise) {
-    this._map._container.style.cursor = 'wait';
+    this._map._container.classList.remove('leaflet-grab');
+    this._map._container.classList.add('cursor-wait');
 
     const routes = await routesPromise;
 
@@ -21,7 +22,8 @@ export default class ListRoutesPresenter {
       layer.addTo(this._map);
     }
 
-    this._map._container.style.cursor = 'move';
+    this._map._container.classList.remove('cursor-wait');
+    this._map._container.classList.add('leaflet-grab');
   }
 
   _setup(leaflet) {
