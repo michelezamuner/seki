@@ -3,7 +3,7 @@ import Gapi from './lib/gapi.js';
 import Ui from './framework/clients/web/ui.js';
 import GapiRoutesRepository from './framework/gapi_routes_repository.js';
 import RoutesPresenter from './framework/clients/web/routes_presenter.js';
-import LoadProvider from './framework/clients/web/load_provider.js';
+import LoadProvider from './framework/clients/web/load/provider.js';
 import Router from './framework/clients/web/router.js';
 
 document.addEventListener('DOMContentLoaded', () => {

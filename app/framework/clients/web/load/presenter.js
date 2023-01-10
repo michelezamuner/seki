@@ -1,4 +1,4 @@
-export default class LoadPresenter {
+export default class Presenter {
   constructor(ui, routesPresenter) {
     this._ui = ui;
     this._routesPresenter = routesPresenter;

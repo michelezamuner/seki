@@ -1,4 +1,4 @@
-export default class LoadController {
+export default class Controller {
   constructor(load) {
     this._load = load;
   }
