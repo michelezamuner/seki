@@ -1,11 +1,9 @@
-export default class ListRoutesPresenter {
+export default class RoutesPresenter {
   constructor(ui) {
     this._ui = ui;
   }
 
-  async present(routesPromise) {
-    const routes = await routesPromise;
-
+  async present(routes) {
     for (const route of routes) {
       const layer = new this._ui.leaflet.GPX(route.track, {
         async: true,

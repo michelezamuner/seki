@@ -5,12 +5,20 @@ export default class GapiRoutesRepository {
     this._gapiClient = gapiClient;
     this._config = config;
 
-    this._routes = [];
+    this._routes = null;
   }
 
-  async load() {
-    this._routesData = await this._load('routes');
-    this._chunksData = await this._load('gpx_chunks');
+  async search() {
+    if (this._routes === null) {
+      await this._load();
+    }
+
+    return this._routes;
+  }
+
+  async _load() {
+    this._routesData = await this._loadRange('routes');
+    this._chunksData = await this._loadRange('gpx_chunks');
 
     this._routes = this._chunksData.map((chunks, i) => {
       const routeData = this._routesData[i + 1];
@@ -20,11 +28,7 @@ export default class GapiRoutesRepository {
     });
   }
 
-  async list() {
-    return this._routes;
-  }
-
-  async _load(range) {
+  async _loadRange(range) {
     return (await this._gapiClient.sheets.spreadsheets.values.get({
       spreadsheetId: this._config.spreadsheetId,
       range: range,
