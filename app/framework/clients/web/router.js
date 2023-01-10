@@ -3,9 +3,9 @@ export default class Router {
     this._loadProvider = loadProvider;
   }
 
-  async route() {
+  async route(request) {
     const loadController = this._loadProvider.provide();
 
-    await loadController.load();
+    await loadController.load(request);
   }
 }

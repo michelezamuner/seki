@@ -3,7 +3,7 @@ export default class Controller {
     this._load = load;
   }
 
-  async load() {
-    await this._load.exec();
+  async load(request) {
+    await this._load.exec(request.authContext);
   }
 }
