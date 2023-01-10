@@ -1,6 +1,6 @@
 export default class Gapi {
-  constructor(global, dom, config) {
-    this._global = global;
+  constructor(context, dom, config) {
+    this._context = context;
     this._dom = dom;
     this._config = config;
 
@@ -13,8 +13,8 @@ export default class Gapi {
     this._addScript(
       'https://apis.google.com/js/api.js',
       async() => {
-        this._global.gapi.load('client', async() => {
-          await this._global.gapi.client.init({
+        this._context.gapi.load('client', async() => {
+          await this._context.gapi.client.init({
             apiKey: this._config.apiKey,
             discoveryDocs: [this._config.discoveryDoc],
           });
@@ -29,7 +29,7 @@ export default class Gapi {
     this._addScript(
       'https://accounts.google.com/gsi/client',
       async() => {
-        this._tokenClient = this._global.google.accounts.oauth2.initTokenClient({
+        this._tokenClient = this._context.google.accounts.oauth2.initTokenClient({
           client_id: this._config.clientId,
           scope: this._config.scopes,
           callback: '',
@@ -47,10 +47,10 @@ export default class Gapi {
       if (resp.error !== undefined) {
         throw (resp);
       }
-      await callback(this._global.gapi);
+      await callback(this._context.gapi);
     };
 
-    if (this._global.gapi.client.getToken() === null) {
+    if (this._context.gapi.client.getToken() === null) {
       // Prompt the user to select a Google Account and ask for consent to share their data
       // when establishing a new session.
       this._tokenClient.requestAccessToken({ prompt: 'consent' });
