@@ -1,5 +1,5 @@
 import Presenter from './presenter.js';
-import Index from '../../../../features/index.js';
+import Index from '../../../application/index.js';
 import Controller from './controller.js';
 
 export default class Provider {

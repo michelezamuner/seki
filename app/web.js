@@ -2,13 +2,13 @@ import config from './config.js';
 import Dispatcher from './lib/dispatcher.js';
 import WebEventFactory from './lib/web_event_factory.js';
 import Gapi from './lib/gapi.js';
-import GapiAuthDriver from './src/framework/gapi_auth_driver.js';
-import AuthMiddleware from './src/framework/clients/web/auth_middleware.js';
-import Ui from './src/framework/clients/web/ui.js';
-import GapiRoutesRepository from './src/framework/gapi_routes_repository.js';
-import RoutesPresenter from './src/framework/clients/web/routes_presenter.js';
-import IndexProvider from './src/framework/clients/web/index/provider.js';
-import SearchProvider from './src/framework/clients/web/search/provider.js';
+import GapiAuthDriver from './src/drivers/gapi_auth_driver.js';
+import AuthMiddleware from './src/clients/web/auth_middleware.js';
+import Ui from './src/clients/web/ui.js';
+import GapiRoutesRepository from './src/drivers/gapi_routes_repository.js';
+import RoutesPresenter from './src/clients/web/routes_presenter.js';
+import IndexProvider from './src/clients/web/index/provider.js';
+import SearchProvider from './src/clients/web/search/provider.js';
 
 window.addEventListener('DOMContentLoaded', async() => {
   const dispatcher = new Dispatcher(window, new WebEventFactory());
