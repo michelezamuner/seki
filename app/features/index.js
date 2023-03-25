@@ -1,4 +1,4 @@
-export default class Load {
+export default class Index {
   constructor(routesRepository, presenter) {
     this._routesRepository = routesRepository;
     this._presenter = presenter;

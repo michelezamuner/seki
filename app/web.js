@@ -5,7 +5,7 @@ import AuthMiddleware from './framework/clients/web/auth_middleware.js';
 import Ui from './framework/clients/web/ui.js';
 import GapiRoutesRepository from './framework/gapi_routes_repository.js';
 import RoutesPresenter from './framework/clients/web/routes_presenter.js';
-import LoadProvider from './framework/clients/web/load/provider.js';
+import IndexProvider from './framework/clients/web/index/provider.js';
 import SearchProvider from './framework/clients/web/search/provider.js';
 import Router from './framework/clients/web/router.js';
 import Listener from './framework/clients/web/listener.js';
@@ -22,11 +22,11 @@ window.addEventListener('DOMContentLoaded', async() => {
 
   const routesPresenter = new RoutesPresenter(ui);
   const routesRepository = new GapiRoutesRepository(config.db);
-  const loadProvider = new LoadProvider(routesRepository, ui, routesPresenter);
+  const indexProvider = new IndexProvider(routesRepository, ui, routesPresenter);
 
   const searchProvider = new SearchProvider(ui);
 
-  const router = new Router(middlewares, loadProvider, searchProvider);
+  const router = new Router(middlewares, indexProvider, searchProvider);
 
   const listener = new Listener(window, router);
 

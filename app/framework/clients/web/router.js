@@ -1,7 +1,7 @@
 export default class Router {
-  constructor(middlewares, loadProvider, searchProvider) {
+  constructor(middlewares, indexProvider, searchProvider) {
     this._middlewares = middlewares;
-    this._loadProvider = loadProvider;
+    this._indexProvider = indexProvider;
     this._searchProvider = searchProvider;
   }
 
@@ -10,12 +10,12 @@ export default class Router {
       request = await middleware.handle(request);
     }
 
-    const loadController = this._loadProvider.provide();
+    const indexController = this._indexProvider.provide();
     const searchController = this._searchProvider.provide();
 
     switch (request.route) {
     case '/':
-      await loadController.load(request);
+      await indexController.index(request);
       break;
     case '/search/input':
       searchController.input(request);

@@ -1,5 +1,5 @@
 import Presenter from './presenter.js';
-import Load from '../../../../features/load.js';
+import Index from '../../../../features/index.js';
 import Controller from './controller.js';
 
 export default class Provider {
@@ -11,8 +11,8 @@ export default class Provider {
 
   provide() {
     const presenter = new Presenter(this._ui, this._routesPresenter);
-    const load = new Load(this._routesRepository, presenter);
+    const feature = new Index(this._routesRepository, presenter);
 
-    return new Controller(load);
+    return new Controller(feature);
   }
 }
