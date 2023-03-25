@@ -9,10 +9,11 @@ export default class Provider {
     this._routesPresenter = routesPresenter;
   }
 
-  provide() {
+  provide(dispatcher) {
     const presenter = new Presenter(this._ui, this._routesPresenter);
-    const feature = new Index(this._routesRepository, presenter);
+    const service = new Index(this._routesRepository, presenter);
+    const controller = new Controller(service);
 
-    return new Controller(feature);
+    controller.register(dispatcher);
   }
 }

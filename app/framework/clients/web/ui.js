@@ -1,16 +1,11 @@
 export default class Ui {
-  constructor(context, dom, leaflet, config) {
-    this._context = null;
+  constructor(dom, leaflet, config) {
     this._dom = null;
     this._leaflet = null;
     this._config = null;
     this._map = null;
 
-    this._setup(context, dom, leaflet, config);
-  }
-
-  dispatch(event, data) {
-    this._context.dispatchEvent(new CustomEvent(event, { detail: data }));
+    this._setup(dom, leaflet, config);
   }
 
   get leaflet() {
@@ -21,7 +16,7 @@ export default class Ui {
     return this._map;
   }
 
-  _setup(context, dom, leaflet, config) {
+  _setup(dom, leaflet, config) {
     const map = new leaflet.map('map').setView(config.map.center, config.map.zoom);
 
     leaflet.tileLayer(config.map.tileLayer.url, {
@@ -32,7 +27,6 @@ export default class Ui {
       zoomOffset: config.map.tileLayer.zoomOffset,
     }).addTo(map);
 
-    this._context = context;
     this._dom = dom;
     this._leaflet = leaflet;
     this._config = config;

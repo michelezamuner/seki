@@ -4,13 +4,14 @@ export default class AuthMiddleware {
     this._authContext = null;
   }
 
-  async handle(request) {
+  async handle(event) {
     if (this._authContext === null) {
+      // @todo: what if auth fails?
       this._authContext = await this._authDriver.auth();
     }
 
-    request.authContext = this._authContext;
+    event.authContext = this._authContext;
 
-    return request;
+    return event;
   }
 }

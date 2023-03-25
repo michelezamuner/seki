@@ -1,9 +1,9 @@
 export default class Presenter  {
-  constructor(ui) {
-    this._ui = ui;
+  constructor(dispatcher) {
+    this._dispatcher = dispatcher;
   }
 
   presentInput() {
-    this._ui.dispatch('searchInput', prompt('Search'));
+    this._dispatcher.dispatch('search_query', { query: prompt('Search') });
   }
 }
