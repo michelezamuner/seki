@@ -1,4 +1,4 @@
-import AuthDriver from './drivers/auth_driver.js';
+import GapiDriver from './drivers/gapi_driver.js';
 import RoutesRepository from './drivers/routes_repository.js';
 import RoutesSearch from './drivers/routes_search.js';
 import Service from './application/service.js';
@@ -11,10 +11,10 @@ export default class Provider {
   }
 
   provide(api, dispatcher) {
-    const authDriver = new AuthDriver(api);
+    const gapiDriver = new GapiDriver(api);
     const routesRepository = new RoutesRepository(api);
     const routesSearch = new RoutesSearch(api);
-    const service = new Service(authDriver, routesRepository, routesSearch);
+    const service = new Service(gapiDriver, routesRepository, routesSearch);
     const consoleClient = new Console(window, service);
     const webClient = new Web(document, window.L, this._config.ui, service);
 
