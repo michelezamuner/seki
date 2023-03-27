@@ -1,30 +1,19 @@
 export default class Console {
-  constructor(context, service) {
-    this._context = context;
+  constructor(runtime, service) {
+    this._runtime = runtime;
     this._service = service;
   }
 
   listeners() {
     return {
-      'seki.inited': () => this._onLoad(),
+      'seki.loaded': () => this._onSekiLoaded(),
     };
   }
 
-  _onLoad() {
-    this._context.seki = {
-      login: async() => await this._login(),
-      index: async() => await this._index(),
-      search: async(query) => await this._search(query),
-      update: async() => await this._update(),
-    };
-  }
-
-  async _login() {
-    this._write('Wait...');
-
-    this._user = await this._service.login();
-
-    this._write('...done!');
+  _onSekiLoaded() {
+    this._runtime.seki = this._runtime.seki || {};
+    this._runtime.seki.index = async() => await this._index();
+    this._runtime.seki.update = async() => await this._update();
   }
 
   async _index() {
@@ -32,17 +21,6 @@ export default class Console {
 
     const routes = await this._service.index();
     this._displayRoutes(routes);
-
-    this._write('...done!');
-  }
-
-  async _search(query) {
-    this._write('Wait...');
-
-    const routes = await this._service.search(query);
-    console.log(routes);
-    // @todo
-    // this._displayRoutes(routes);
 
     this._write('...done!');
   }
@@ -62,6 +40,6 @@ export default class Console {
   }
 
   _write(message) {
-    this._context.console.info(message);
+    this._runtime.console.info(message);
   }
 }

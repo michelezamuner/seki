@@ -2,7 +2,7 @@ import RoutesIndex from './drivers/routes_index.js';
 import DomainService from './domain/service.js';
 import ApplicationService from './application/service.js';
 import Controller from './application/controller.js';
-import Api from './clients/api.js';
+import Console from './clients/console.js';
 import Listener from './clients/listener.js';
 
 export default class Provider {
@@ -12,8 +12,8 @@ export default class Provider {
     const applicationService = new ApplicationService(routesIndex, domainService);
     const controller = new Controller(applicationService);
 
-    const apiClient = new Api(controller);
-    api.register('routes_search', apiClient);
+    const consoleClient = new Console(window, applicationService);
+    dispatcher.register(consoleClient);
 
     const listenerClient = new Listener(controller);
     dispatcher.register(listenerClient);

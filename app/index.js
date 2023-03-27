@@ -8,6 +8,8 @@ import RoutesRepositoryProvider from './src/routes_repository/provider.js';
 import RoutesProvider from './src/routes/provider.js';
 import RoutesSearchProvider from './src/routes_search/provider.js';
 import GapiProvider from './src/gapi/provider.js';
+import SekiProvider from './src/seki/provider.js';
+import MapProvider from './src/map/provider.js';
 
 const api = new Api();
 const dispatcher = new Dispatcher(window, new WebEventFactory());
@@ -17,6 +19,8 @@ const providers = [
   RoutesProvider,
   RoutesSearchProvider,
   GapiProvider,
+  SekiProvider,
+  MapProvider,
 ];
 
 for (const Provider of providers) {

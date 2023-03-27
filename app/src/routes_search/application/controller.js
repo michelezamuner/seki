@@ -14,8 +14,4 @@ export default class Controller {
   unlockIndex() {
     this._service.unlockIndex();
   }
-
-  async search(request) {
-    return await this._service.search(request.query);
-  }
 }
