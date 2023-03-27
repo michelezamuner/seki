@@ -3,21 +3,28 @@ export default class Web {
     this._dom = dom;
     this._leaflet = leaflet;
     this._config = config;
-    this._map = this._setup();
+    this._map = null;
     this._service = service;
-    this._authToken = null;
   }
 
-  async run() {
+  listeners() {
+    return {
+      'seki.inited': async() => await this._onLoad(),
+    };
+  }
+
+  async _onLoad() {
+    await this._service.login();
+
+    this._map = this._setup();
+
     await this._index();
   }
 
   async _index() {
     this._map._container.classList.add('cursor-wait');
 
-    this._authToken = await this._service.login();
-
-    const routes = await this._service.index(this._authToken);
+    const routes = await this._service.index();
     for (const route of routes) {
       const layer = new this._leaflet.GPX(route.track, {
         async: true,

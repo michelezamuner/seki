@@ -6,18 +6,18 @@ export default class Service {
   }
 
   async login() {
-    return await this._authDriver.auth();
+    await this._authDriver.login();
   }
 
-  async index(authToken) {
-    return await this._routesRepository.routes(authToken);
+  async index() {
+    return await this._routesRepository.routes();
   }
 
-  async search(authToken, query) {
-    return await this._routesSearch.search(authToken, query);
+  async search(query) {
+    return await this._routesSearch.search(query);
   }
 
-  async update(authToken) {
-    await this._routesRepository.update(authToken);
+  async update() {
+    await this._routesRepository.update();
   }
 }

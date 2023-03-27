@@ -8,12 +8,12 @@ export default class RoutesRepository {
     return this._isInitialized;
   }
 
-  update(user, routes) {
-    this._routes[user.authToken] = routes;
+  update(routes) {
+    this._routes = routes;
     this._isInitialized = true;
   }
 
-  routes(user) {
-    return this._routes[user.authToken];
+  routes() {
+    return this._routes;
   }
 }

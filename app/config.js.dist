@@ -2,7 +2,7 @@ export default {
   gapi: {
     apiKey: '',
     clientId: '',
-    discoveryDoc: '',
+    discoveryDocs: [],
     scopes: '',
   },
   db: {

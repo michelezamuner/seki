@@ -4,9 +4,9 @@ export default class Dispatcher {
     this._eventFactory = eventFactory;
   }
 
-  register(service, client) {
+  register(client) {
     for (const [eventName, listener] of Object.entries(client.listeners())) {
-      this._addListener(this._eventName(service, eventName), listener);
+      this._addListener(eventName, listener);
     }
   }
 
@@ -20,9 +20,5 @@ export default class Dispatcher {
       let event = this._eventFactory.fromNativeEvent(e);
       await listener(event);
     });
-  }
-
-  _eventName(service, eventName) {
-    return service ? `${service}.${eventName}` : eventName;
   }
 }

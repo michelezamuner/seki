@@ -1,5 +1,4 @@
-import AuthDriver from './drivers/auth_driver.js';
-import DataDriver from './drivers/data_driver.js';
+import GapiDriver from './drivers/gapi_driver.js';
 import RoutesRepository from './drivers/routes_repository.js';
 import Service from './application/service.js';
 import Controller from './application/controller.js';
@@ -11,12 +10,11 @@ export default class Provider {
   }
 
   provide(api, dispatcher) {
-    const authDriver = new AuthDriver(api);
-    const dataDriver = new DataDriver(authDriver, this._config.db);
+    const gapiDriver = new GapiDriver(api, this._config.db);
     const routesRepository = new RoutesRepository();
 
-    const service = new Service(dataDriver, routesRepository, dispatcher);
-    const controller = new Controller(authDriver, service);
+    const service = new Service(gapiDriver, routesRepository, dispatcher);
+    const controller = new Controller(service);
 
     const apiClient = new Api(controller);
     api.register('routes_repository', apiClient);

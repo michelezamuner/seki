@@ -6,6 +6,7 @@ export default class Api {
   routes() {
     return {
       login: async() => await this._login(),
+      sheets: async(r) => await this._sheets(r),
     };
   }
 
@@ -13,6 +14,12 @@ export default class Api {
     return await this._call(async() =>
       await this._service.login()
     );
+  }
+
+  async _sheets(request) {
+    return await this._call(async() => ({
+      values: await this._service.sheets(request.sheetId, request.range),
+    }));
   }
 
   async _call(resolve, request) {

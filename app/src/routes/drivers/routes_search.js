@@ -5,9 +5,9 @@ export default class RoutesSearch {
     this._api = api;
   }
 
-  async search(authToken, query) {
+  async search(query) {
     // @todo: map to route entities
-    const response = await this._api.get('app://routes_search/search', { authToken: authToken, query: query });
+    const response = await this._api.get('app://routes_search/search', { query: query });
     if (response.status === 'error') {
       throw response.data.reason;
     }

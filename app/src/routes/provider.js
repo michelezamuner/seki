@@ -10,7 +10,7 @@ export default class Provider {
     this._config = config;
   }
 
-  provide(api) {
+  provide(api, dispatcher) {
     const authDriver = new AuthDriver(api);
     const routesRepository = new RoutesRepository(api);
     const routesSearch = new RoutesSearch(api);
@@ -18,7 +18,7 @@ export default class Provider {
     const consoleClient = new Console(window, service);
     const webClient = new Web(document, window.L, this._config.ui, service);
 
-    consoleClient.run();
-    webClient.run();
+    dispatcher.register(consoleClient);
+    dispatcher.register(webClient);
   }
 }

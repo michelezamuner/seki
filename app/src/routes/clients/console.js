@@ -2,10 +2,15 @@ export default class Console {
   constructor(context, service) {
     this._context = context;
     this._service = service;
-    this._authToken = null;
   }
 
-  run() {
+  listeners() {
+    return {
+      'seki.inited': () => this._onLoad(),
+    };
+  }
+
+  _onLoad() {
     this._context.seki = {
       login: async() => await this._login(),
       index: async() => await this._index(),
@@ -15,44 +20,26 @@ export default class Console {
   }
 
   async _login() {
-    if (this._authToken) {
-      this._write('You are already logged in');
-
-      return;
-    }
-
     this._write('Wait...');
 
-    this._authToken = await this._service.login();
+    this._user = await this._service.login();
 
     this._write('...done!');
   }
 
   async _index() {
-    if (!this._authToken) {
-      this._write('You are not logged in');
-
-      return;
-    }
-
     this._write('Wait...');
 
-    const routes = await this._service.index(this._authToken);
+    const routes = await this._service.index();
     this._displayRoutes(routes);
 
     this._write('...done!');
   }
 
   async _search(query) {
-    if (!this._authToken) {
-      this._write('You are not logged in');
-
-      return;
-    }
-
     this._write('Wait...');
 
-    const routes = await this._service.search(this._authToken, query);
+    const routes = await this._service.search(query);
     console.log(routes);
     // @todo
     // this._displayRoutes(routes);
@@ -61,15 +48,9 @@ export default class Console {
   }
 
   async _update() {
-    if (!this._authToken) {
-      this._write('You are not logged in');
-
-      return;
-    }
-
     this._write('Wait...');
 
-    await this._service.update(this._authToken);
+    await this._service.update();
 
     this._write('...done!');
   }

@@ -1,6 +1,5 @@
 export default class Route {
-  constructor(user, data, track) {
-    this._user = user;
+  constructor(data, track) {
     this._data = data;
     this._track = track;
   }

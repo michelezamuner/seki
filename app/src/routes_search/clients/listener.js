@@ -5,9 +5,9 @@ export default class Listener {
 
   listeners() {
     return {
-      update_started: () => this._onUpdateStarted(),
-      route_loaded: (e) => this._onRouteLoaded(e),
-      update_completed: () => this._onUpdateCompleted(),
+      'routes_repository.update_started': () => this._onUpdateStarted(),
+      'routes_repository.route_loaded': (e) => this._onRouteLoaded(e),
+      'routes_repository.update_completed': () => this._onUpdateCompleted(),
     };
   }
 

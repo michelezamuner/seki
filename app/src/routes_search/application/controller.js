@@ -1,6 +1,5 @@
 export default class Controller {
-  constructor(authDriver, service) {
-    this._authDriver = authDriver;
+  constructor(service) {
     this._service = service;
   }
 
@@ -17,8 +16,6 @@ export default class Controller {
   }
 
   async search(request) {
-    // @todo: validate request.authToken
-
     return await this._service.search(request.query);
   }
 }

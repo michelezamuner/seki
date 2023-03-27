@@ -5,15 +5,15 @@ export default class RoutesRepository {
     this._api = api;
   }
 
-  async update(authToken) {
-    const response = await this._api.get('app://routes_repository/update', { authToken: authToken });
+  async update() {
+    const response = await this._api.get('app://routes_repository/update');
     if (response.status === 'error') {
       throw response.data.reason;
     }
   }
 
-  async routes(authToken) {
-    const response = await this._api.get('app://routes_repository/routes', { authToken: authToken });
+  async routes() {
+    const response = await this._api.get('app://routes_repository/routes');
     if (response.status === 'error') {
       throw response.data.reason;
     }
