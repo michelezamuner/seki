@@ -10,7 +10,7 @@ export default class Web {
 
   listeners() {
     return {
-      'seki.loaded': async() => await this._onSekiLoaded(),
+      'seki.web.loaded': async() => await this._onSekiLoaded(),
       'map.leaflet_loaded': async() => await this._onLeafletLoaded(),
       'map.leaflet-gpx_loaded': async() => await this._onLeafletGpxLoaded(),
     };
@@ -29,7 +29,7 @@ export default class Web {
     this._window.document.body.style.margin = 0;
     this._window.document.body.style.padding = 0;
     const map = this._window.document.createElement('div');
-    map.id = this._config.map.id;
+    map.id = this._config.id;
     map.style.height = '800px';
     map.style.width = '100%';
     map.style.float = 'left';
@@ -52,15 +52,15 @@ export default class Web {
 
   _setup() {
     this._window.map = new this._window.L
-      .map(this._config.map.id)
-      .setView(this._config.map.center, this._config.map.zoom);
+      .map(this._config.id)
+      .setView(this._config.center, this._config.zoom);
 
-    this._window.L.tileLayer(this._config.map.tileLayer.url, {
-      maxZoom: this._config.map.tileLayer.maxZoom,
-      attribution: this._config.map.tileLayer.attribution,
-      id: this._config.map.tileLayer.id,
-      tileSize: this._config.map.tileLayer.tileSize,
-      zoomOffset: this._config.map.tileLayer.zoomOffset,
+    this._window.L.tileLayer(this._config.tileLayer.url, {
+      maxZoom: this._config.tileLayer.maxZoom,
+      attribution: this._config.tileLayer.attribution,
+      id: this._config.tileLayer.id,
+      tileSize: this._config.tileLayer.tileSize,
+      zoomOffset: this._config.tileLayer.zoomOffset,
     }).addTo(this._window.map);
 
     this._setupDone = true;

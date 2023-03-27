@@ -12,6 +12,6 @@ export default class Web {
 
   async _onGapiInited() {
     await this._service.login();
-    this._dispatcher.dispatch('seki.loaded');
+    this._dispatcher.dispatch('seki.web.loaded');
   }
 }

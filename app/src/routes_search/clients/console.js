@@ -6,7 +6,7 @@ export default class Console {
 
   listeners() {
     return {
-      'seki.loaded': async() => await this._onSekiLoaded(),
+      'seki.console.loaded': async() => await this._onSekiLoaded(),
     };
   }
 

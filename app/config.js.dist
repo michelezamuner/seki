@@ -5,22 +5,26 @@ export default {
     discoveryDocs: [],
     scopes: '',
   },
-  db: {
+  map: {
+    id: '',
+    center: [0, 0],
+    zoom: 0,
+    tileLayer: {
+      url: '',
+      maxZoom: 0,
+      attribution: '',
+      id: '',
+      tileSize: 0,
+      zoomOffset: 0,
+    },
+  },
+  routes_repository: {
     spreadsheetId: '',
   },
-  ui: {
-    map: {
-      id: '',
-      center: [0, 0],
-      zoom: 0,
-      tileLayer: {
-        url: '',
-        maxZoom: 0,
-        attribution: '',
-        id: '',
-        tileSize: 0,
-        zoomOffset: 0,
-      },
+  seki: {
+    clients: {
+      console: true,
+      web: true,
     },
-  }
+  },
 };

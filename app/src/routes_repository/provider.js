@@ -6,11 +6,11 @@ import Api from './clients/api.js';
 
 export default class Provider {
   constructor(config) {
-    this._config = config;
+    this._config = config.routes_repository;
   }
 
   provide(api, dispatcher) {
-    const gapiDriver = new GapiDriver(api, this._config.db);
+    const gapiDriver = new GapiDriver(api, this._config);
     const routesRepository = new RoutesRepository();
 
     const service = new Service(gapiDriver, routesRepository, dispatcher);

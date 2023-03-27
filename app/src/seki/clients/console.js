@@ -1,18 +1,22 @@
 export default class Console {
-  constructor(runtime, service) {
+  constructor(runtime, dispatcher, service) {
     this._runtime = runtime;
+    this._dispatcher = dispatcher;
     this._service = service;
   }
 
   listeners() {
     return {
-      'seki.loaded': () => this._onSekiLoaded(),
+      'gapi.inited': () => this._onGapiInited(),
     };
   }
 
-  _onSekiLoaded() {
-    this._runtime.seki = this._runtime.seki || {};
-    this._runtime.seki.login = async() => await this._login();
+  _onGapiInited() {
+    this._runtime.seki = {
+      login: async() => await this._login(),
+    };
+
+    this._dispatcher.dispatch('seki.console.loaded');
   }
 
   async _login() {

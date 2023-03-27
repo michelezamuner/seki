@@ -6,12 +6,11 @@ export default class Console {
 
   listeners() {
     return {
-      'seki.loaded': () => this._onSekiLoaded(),
+      'seki.console.loaded': () => this._onSekiLoaded(),
     };
   }
 
   _onSekiLoaded() {
-    this._runtime.seki = this._runtime.seki || {};
     this._runtime.seki.index = async() => await this._index();
     this._runtime.seki.update = async() => await this._update();
   }
