@@ -12,7 +12,7 @@ export default class Provider {
 
   provide(api, dispatcher) {
     const authDriver = new AuthDriver(api);
-    const dataDriver = new DataDriver(this._config.db);
+    const dataDriver = new DataDriver(authDriver, this._config.db);
     const routesRepository = new RoutesRepository();
 
     const service = new Service(dataDriver, routesRepository, dispatcher);

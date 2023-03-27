@@ -1,13 +1,17 @@
 export default class DataDriver {
-  constructor(config) {
+  constructor(authDriver, config) {
+    this._authDriver = authDriver;
     this._config = config;
   }
 
-  async loadRoutesData(authContext) {
+  async loadRoutesData(user) {
+    const authContext = this._authDriver.authContext(user);
+
     return await this._loadData(authContext, 'routes');
   }
 
-  async loadGpxData(authContext) {
+  async loadGpxData(user) {
+    const authContext = this._authDriver.authContext(user);
     const chunksData = await this._loadData(authContext, 'gpx_chunks');
 
     return chunksData.map(chunks => chunks.join(''));

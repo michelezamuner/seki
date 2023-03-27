@@ -3,8 +3,8 @@ export default class AuthRepository {
     this._authContexts = {};
   }
 
-  store(authToken, authContext) {
-    this._authContexts[authToken] = authContext;
+  store(authContext) {
+    this._authContexts[authContext.client.getToken()] = authContext;
   }
 
   get(authToken) {

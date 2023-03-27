@@ -7,10 +7,9 @@ export default class Service {
 
   async auth() {
     const authContext = await this._authDriver.auth();
-    const authToken = this._authTokenFactory.create();
-    this._authRepository.store(authToken, authContext);
+    this._authRepository.store(authContext);
 
-    return authToken;
+    return authContext.client.getToken();
   }
 
   async context(authToken) {

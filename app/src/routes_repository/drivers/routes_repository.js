@@ -1,17 +1,19 @@
 export default class RoutesRepository {
   constructor() {
-    this._routes = null;
+    this._routes = {};
+    this._isInitialized = false;
   }
 
   get isInitialized() {
-    return this._routes !== null;
+    return this._isInitialized;
   }
 
-  update(routes) {
-    this._routes = routes;
+  update(user, routes) {
+    this._routes[user.authToken] = routes;
+    this._isInitialized = true;
   }
 
-  routes() {
-    return this._routes;
+  routes(user) {
+    return this._routes[user.authToken];
   }
 }

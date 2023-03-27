@@ -7,30 +7,30 @@ export default class Service {
     this._dispatcher = dispatcher;
   }
 
-  async update(authContext) {
+  async update(user) {
     this._dispatcher.dispatch('routes_repository.update_started');
 
-    const routesData = await this._dataDriver.loadRoutesData(authContext);
-    const gpxData = await this._dataDriver.loadGpxData(authContext);
+    const routesData = await this._dataDriver.loadRoutesData(user);
+    const gpxData = await this._dataDriver.loadGpxData(user);
 
     const routes = routesData.map((routeData, i) => {
-      const route = new Route(routeData, gpxData[i]);
+      const route = new Route(user, routeData, gpxData[i]);
 
       this._dispatcher.dispatch('routes_repository.route_loaded', { route: route });
 
       return route;
     });
 
-    this._routesRepository.update(routes);
+    this._routesRepository.update(user, routes);
 
     this._dispatcher.dispatch('routes_repository.update_completed');
   }
 
-  async routes(authContext) {
+  async routes(user) {
     if (!this._routesRepository.isInitialized) {
-      await this.update(authContext);
+      await this.update(user);
     }
 
-    return this._routesRepository.routes();
+    return this._routesRepository.routes(user);
   }
 }

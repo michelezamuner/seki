@@ -5,14 +5,14 @@ export default class Controller {
   }
 
   async update(request) {
-    const authContext = await this._authDriver.context(request.authToken);
+    const user = await this._authDriver.auth(request.authToken);
 
-    await this._service.update(authContext);
+    await this._service.update(user);
   }
 
   async routes(request) {
-    const authContext = await this._authDriver.context(request.authToken);
+    const user = await this._authDriver.auth(request.authToken);
 
-    return await this._service.routes(authContext);
+    return await this._service.routes(user);
   }
 }
