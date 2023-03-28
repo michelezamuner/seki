@@ -18,7 +18,7 @@ export default {
       zoomOffset: 0,
     },
   },
-  routes_repository: {
+  routes: {
     spreadsheetId: '',
   },
   seki: {
