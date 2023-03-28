@@ -13,6 +13,7 @@ export default class Console {
   _onSekiLoaded() {
     this._runtime.seki.index = async() => await this._index();
     this._runtime.seki.update = async() => await this._update();
+    this._runtime.seki.search = async(query) => await this._search(query);
   }
 
   async _index() {
@@ -28,6 +29,15 @@ export default class Console {
     this._write('Wait...');
 
     await this._service.update();
+
+    this._write('...done!');
+  }
+
+  async _search(query) {
+    this._write('Wait...');
+
+    const routes = await this._service.search(query);
+    this._displayRoutes(routes);
 
     this._write('...done!');
   }

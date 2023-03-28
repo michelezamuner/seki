@@ -1,19 +1,17 @@
 export default class RoutesRepository {
   constructor() {
     this._routes;
-    this._isInitialized = false;
   }
 
-  get isInitialized() {
-    return this._isInitialized;
-  }
-
-  async update(routes) {
+  async reset(routes) {
     this._routes = routes;
-    this._isInitialized = true;
   }
 
   routes() {
     return this._routes;
+  }
+
+  find(ids) {
+    return this._routes.filter(route => ids.includes(route.id));
   }
 }

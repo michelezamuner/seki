@@ -5,7 +5,7 @@ import Dispatcher from './lib/dispatcher.js';
 import WebEventFactory from './lib/web_event_factory.js';
 
 import RoutesProvider from './src/routes/provider.js';
-import RoutesSearchProvider from './src/routes_search/provider.js';
+import SearchProvider from './src/search/provider.js';
 import GapiProvider from './src/gapi/provider.js';
 import SekiProvider from './src/seki/provider.js';
 import MapProvider from './src/map/provider.js';
@@ -15,7 +15,7 @@ const dispatcher = new Dispatcher(window, new WebEventFactory());
 
 const providers = [
   RoutesProvider,
-  RoutesSearchProvider,
+  SearchProvider,
   GapiProvider,
   SekiProvider,
   MapProvider,
