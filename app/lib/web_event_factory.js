@@ -1,7 +1,7 @@
 export default class WebEventFactory {
   fromNativeEvent(nativeEvent) {
     let event = {};
-    if (nativeEvent.detail) {
+    if (nativeEvent.detail && typeof nativeEvent.detail === 'object') {
       event = { ...nativeEvent.detail };
     }
     for (const field in nativeEvent) {
