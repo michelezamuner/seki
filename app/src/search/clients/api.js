@@ -5,15 +5,21 @@ export default class Api {
 
   routes() {
     return {
-      reset: async(r) => await this._reset(r),
-      add: async(r) => await this._add(r),
-      search: async(r) => await this._search(r),
+      get: {
+        search: async(r) => await this._search(r),
+      },
+      post: {
+        add: async(r) => await this._add(r),
+      },
+      delete: {
+        reset: async() => await this._reset(),
+      },
     };
   }
 
-  async _reset(request) {
+  async _reset() {
     return await this._call(async() =>
-      await this._controller.reset(request)
+      await this._controller.reset()
     );
   }
 

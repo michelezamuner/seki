@@ -5,8 +5,12 @@ export default class Api {
 
   routes() {
     return {
-      login: async() => await this._login(),
-      sheets: async(r) => await this._sheets(r),
+      get: {
+        sheets: async(r) => await this._sheets(r),
+      },
+      post: {
+        login: async() => await this._login(),
+      },
     };
   }
 

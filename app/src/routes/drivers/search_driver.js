@@ -6,7 +6,7 @@ export default class SearchDriver {
   }
 
   async reset() {
-    const response = await this._api.get('app://search/reset');
+    const response = await this._api.delete('app://search/reset');
     if (response.status === 'error') {
       throw response.data.reason;
     }
@@ -14,7 +14,7 @@ export default class SearchDriver {
 
   async add(route) {
     const searchItem = new SearchItem(route);
-    const response = await this._api.get('app://search/add', { value: searchItem });
+    const response = await this._api.post('app://search/add', { value: searchItem });
     if (response.status === 'error') {
       throw response.data.reason;
     }

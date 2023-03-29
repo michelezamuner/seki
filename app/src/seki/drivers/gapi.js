@@ -4,7 +4,7 @@ export default class GapiDriver {
   }
 
   async login() {
-    const response = await this._api.get('app://gapi/login');
+    const response = await this._api.post('app://gapi/login');
     if (response.status === 'error') {
       throw response.data.reason;
     }
