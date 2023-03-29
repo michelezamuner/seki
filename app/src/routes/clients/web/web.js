@@ -25,6 +25,7 @@ export default class Web {
     switch (event.code) {
     case 'KeyI': await this._index(); break;
     case 'KeyS': await this._search(); break;
+    case 'KeyU': await this._update(); break;
     }
   }
 
@@ -32,7 +33,10 @@ export default class Web {
     const defaultCursor = this._window.map._container.style.cursor;
     this._window.map._container.style.cursor = 'wait';
 
+    this._clearLayers();
+    await this._service.update();
     const routes = await this._service.index();
+
     if (this._routesLayers.length === 0) {
       for (const route of routes) {
         const routeLayer = new this._window.L.GPX(route.track, {
@@ -80,6 +84,10 @@ export default class Web {
     alert(`Trovati ${routes.length} itinerari`);
   }
 
+  async _update() {
+    await this._index();
+  }
+
   _displayRoutes(routes) {
     this._routesLayers.forEach((layer, id) => {
       if (routes.find(r => r.id === id)) {
@@ -97,5 +105,22 @@ export default class Web {
         this._window.map.removeLayer(layer);
       }
     });
+  }
+
+  _clearLayers() {
+    for (const layer of this._routesLayers) {
+      if (this._window.map.hasLayer(layer)) {
+        this._window.map.removeLayer(layer);
+      }
+    }
+
+    for (const layer of this._peaksLayers) {
+      if (this._window.map.hasLayer(layer)) {
+        this._window.map.removeLayer(layer);
+      }
+    }
+
+    this._routesLayers = [];
+    this._peaksLayers = [];
   }
 }
