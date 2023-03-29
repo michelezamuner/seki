@@ -8,21 +8,39 @@ export default class GapiDriver {
     const routesData = await this._loadData('routes');
     const chunksData = await this._loadData('gpx_chunks');
     const gpxData = chunksData.map(chunks => ({ id: chunks.shift(), gpx: chunks.join('') }));
+    const peaksData = await this._loadData('peaks');
 
     return routesData.map(routeData => {
       const id = routeData[0];
       const track = gpxData.find(gpx => gpx.id === id).gpx;
 
+      const peaksIds = routeData[6].split(',').map(id => id.trim());
+      const peaks = peaksData
+        .filter(peak => peaksIds.includes(peak[0]))
+        .map(peak => ({
+          id: parseInt(peak[0]),
+          name: peak[1],
+          elevation: parseInt(peak[2]),
+          subSection: peak[3],
+          superGroup: peak[4],
+          group: peak[5],
+          subGroup: peak[6],
+          longitude: Number.parseFloat(peak[7]),
+          latitude: Number.parseFloat(peak[8]),
+          done: peak[9] === 'si',
+        }));
+
       return {
-        id: id,
+        id: parseInt(id),
         name: routeData[1],
-        elevation: routeData[2],
-        distance: routeData[3],
+        elevation: parseInt(routeData[2]),
+        distance: Number.parseFloat(routeData[3]),
         time: routeData[4],
         references: routeData[5],
+        peaks: peaks,
         difficulty: routeData[7],
         color: routeData[8],
-        notes: routeData[9],
+        notes: routeData[9] || '',
         track: track,
       };
     });

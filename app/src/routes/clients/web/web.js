@@ -1,4 +1,5 @@
 import RouteBox from './route_box.js';
+import PeakBox from './peak_box.js';
 
 export default class Web {
   constructor(window, service, config) {
@@ -6,6 +7,7 @@ export default class Web {
     this._service = service;
     this._config = config;
     this._routesLayers = [];
+    this._peaksLayers = [];
   }
 
   listeners() {
@@ -32,7 +34,7 @@ export default class Web {
     const routes = await this._service.index();
     if (this._routesLayers.length === 0) {
       for (const route of routes) {
-        const layer = new this._window.L.GPX(route.track, {
+        const routeLayer = new this._window.L.GPX(route.track, {
           async: true,
           marker_options: {
             startIconUrl: '',
@@ -42,13 +44,21 @@ export default class Web {
         }).on('loaded', e => {
           e.target.setStyle({ color: route.color });
           this._routesLayers[route.id] = e.target;
+
+          for (const peak of route.peaks) {
+            const peakLayer = this._window.L.marker([peak.longitude, peak.latitude], { opacity: peak.done ? 1.0 : 0.3 });
+            const peakBox = new PeakBox(peak);
+            peakLayer.bindPopup(peakBox.render());
+            this._peaksLayers[peak.id] = peakLayer;
+          }
+
           if (this._routesLayers.length === routes.length) {
             this._window.map._container.style.cursor = defaultCursor;
             this._displayRoutes(routes);
           }
         });
-        const box = new RouteBox(route);
-        layer.bindPopup(box.render());
+        const routeBox = new RouteBox(route);
+        routeLayer.bindPopup(routeBox.render());
       }
     } else {
       this._window.map._container.style.cursor = defaultCursor;
@@ -67,7 +77,16 @@ export default class Web {
 
   _displayRoutes(routes) {
     this._routesLayers.forEach((layer, id) => {
-      if (routes.find(r => r.id === `${id}`)) {
+      if (routes.find(r => r.id === id)) {
+        this._window.map.addLayer(layer);
+      } else {
+        this._window.map.removeLayer(layer);
+      }
+    });
+
+    const peaks = routes.flatMap(route => route.peaks);
+    this._peaksLayers.forEach((layer, id) => {
+      if (peaks.find(p => p.id === id)) {
         this._window.map.addLayer(layer);
       } else {
         this._window.map.removeLayer(layer);

@@ -1,3 +1,5 @@
+import Peak from './peak.js';
+
 export default class Route {
   constructor(dto) {
     this._id = dto.id;
@@ -6,6 +8,7 @@ export default class Route {
     this._distance = dto.distance;
     this._time = dto.time;
     this._references = dto.references;
+    this._peaks = dto.peaks.map(dto => new Peak(dto));
     this._difficulty = dto.difficulty;
     this._color = dto.color;
     this._notes = dto.notes;
@@ -34,6 +37,10 @@ export default class Route {
 
   get references() {
     return this._references;
+  }
+
+  get peaks() {
+    return this._peaks;
   }
 
   get difficulty() {
