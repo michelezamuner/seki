@@ -1,15 +1,17 @@
 export default class Service {
+  constructor(config) {
+    this._config = config;
+  }
+
   criteria(query) {
-    // [field] [operator] [value]
-    // name ~ col nudo, alt > 1000, dist < 10
     const criteria = [];
     const parts = query.split(',').map(p => p.trim());
     for (const part of parts) {
       const matches = part.match(/^([\w]+)\s+([^\s]+)\s+(.*)$/);
       criteria.push({
-        field: matches[1],
-        compare: this._compare(matches[2]),
-        value: matches[3],
+        field: matches ? matches[1] : this._config.defaultField,
+        compare: this._compare(matches ? matches[2] : '~'),
+        value: matches ? matches[3] : part,
       });
     }
 
@@ -18,9 +20,10 @@ export default class Service {
 
   _compare(symbol) {
     switch (symbol) {
-    case '~': return (a, b) => {
-      return this._normalize(a).includes(this._normalize(b));
-    };
+    case '~': return (a, b) => this._normalize(a).includes(this._normalize(b));
+    case '=': return (a, b) => a === b;
+    case '>': return (a, b) => a >= b;
+    case '<': return (a, b) => a <= b;
     }
   }
 

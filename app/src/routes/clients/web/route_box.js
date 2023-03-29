@@ -17,7 +17,6 @@ export default class RouteBox {
 
   _renderList(list) {
     return list
-      .split('\n')
       .map(item => `<li>${item}</li>`)
       .join('');
   }

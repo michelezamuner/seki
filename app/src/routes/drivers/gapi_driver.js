@@ -36,7 +36,7 @@ export default class GapiDriver {
         elevation: parseInt(routeData[2]),
         distance: Number.parseFloat(routeData[3]),
         time: routeData[4],
-        references: routeData[5],
+        references: routeData[5] ? routeData[5].split('\n') : [],
         peaks: peaks,
         difficulty: routeData[7],
         color: routeData[8],

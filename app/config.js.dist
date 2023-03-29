@@ -21,6 +21,9 @@ export default {
   routes: {
     spreadsheetId: '',
   },
+  search: {
+    defaultField: '',
+  },
   seki: {
     clients: {
       console: true,

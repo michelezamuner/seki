@@ -23,6 +23,7 @@ export default class Web {
 
   async _onKeypress(event) {
     switch (event.code) {
+    case 'KeyI': await this._index(); break;
     case 'KeyS': await this._search(); break;
     }
   }
@@ -68,11 +69,15 @@ export default class Web {
 
   async _search() {
     const query = prompt('Search');
+    if (!query) {
+      return;
+    }
     const routes = await this._service.search(query);
     this._displayRoutes(routes);
     if (routes.length) {
       this._window.map.fitBounds(this._routesLayers[routes[0].id].getBounds());
     }
+    alert(`Trovati ${routes.length} itinerari`);
   }
 
   _displayRoutes(routes) {

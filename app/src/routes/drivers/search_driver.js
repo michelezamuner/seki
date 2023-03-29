@@ -1,3 +1,5 @@
+import SearchItem from '../domain/search_item.js';
+
 export default class SearchDriver {
   constructor(api) {
     this._api = api;
@@ -10,8 +12,9 @@ export default class SearchDriver {
     }
   }
 
-  async add(value) {
-    const response = await this._api.get('app://search/add', { value: value });
+  async add(route) {
+    const searchItem = new SearchItem(route);
+    const response = await this._api.get('app://search/add', { value: searchItem });
     if (response.status === 'error') {
       throw response.data.reason;
     }
