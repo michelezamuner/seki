@@ -23,16 +23,10 @@ export default class Service {
     await this._searchDriver.reset();
 
     const routesData = await this._dataDriver.loadRoutesData();
-    const gpxData = await this._dataDriver.loadGpxData();
 
-    const routes = await Promise.all(routesData.map((routeData, i) => {
-      const route = new Route({
-        id: routeData[0],
-        name: routeData[1],
-        track: gpxData[i],
-      });
-
-      this._searchDriver.add(route);
+    const routes = await Promise.all(routesData.map(async routeData => {
+      const route = new Route(routeData);
+      await this._searchDriver.add(route);
 
       return route;
     }));

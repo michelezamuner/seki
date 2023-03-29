@@ -1,3 +1,5 @@
+import RouteBox from './route_box.js';
+
 export default class Web {
   constructor(window, service, config) {
     this._window = window;
@@ -38,13 +40,15 @@ export default class Web {
             shadowUrl: '',
           },
         }).on('loaded', e => {
+          e.target.setStyle({ color: route.color });
           this._routesLayers[route.id] = e.target;
           if (this._routesLayers.length === routes.length) {
             this._window.map._container.style.cursor = defaultCursor;
             this._displayRoutes(routes);
           }
         });
-        layer.bindPopup(`<h3>${route.name}</h3>`);
+        const box = new RouteBox(route);
+        layer.bindPopup(box.render());
       }
     } else {
       this._window.map._container.style.cursor = defaultCursor;

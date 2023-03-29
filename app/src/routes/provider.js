@@ -2,7 +2,7 @@ import GapiDriver from './drivers/gapi_driver.js';
 import RoutesRepository from './drivers/routes_repository.js';
 import SearchDriver from './drivers/search_driver.js';
 import Service from './application/service.js';
-import Web from './clients/web.js';
+import Web from './clients/web/web.js';
 import Console from './clients/console.js';
 
 export default class Provider {
