@@ -43,4 +43,8 @@ export default class Service {
 
     return this._routesRepository.find(ids);
   }
+
+  async gpx(gpxData) {
+    await this._dataDriver.addGpxData(gpxData);
+  }
 }

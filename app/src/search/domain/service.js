@@ -21,7 +21,7 @@ export default class Service {
   _compare(symbol) {
     switch (symbol) {
     case '~': return (a, b) => this._normalize(a).includes(this._normalize(b));
-    case '=': return (a, b) => a === b;
+    case '=': return (a, b) => ('' + a) === ('' + b);
     case '>': return (a, b) => a >= b;
     case '<': return (a, b) => a <= b;
     }

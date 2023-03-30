@@ -6,13 +6,11 @@ export default class GapiDriver {
 
   async loadRoutesData() {
     const routesData = await this._loadData('routes');
-    const chunksData = await this._loadData('gpx_chunks');
-    const gpxData = chunksData.map(chunks => ({ id: chunks.shift(), gpx: chunks.join('') }));
+    const gpxData = this._gpxFromChunks(await this._loadData('gpx_chunks'));
     const peaksData = await this._loadData('peaks');
 
-    return routesData.map(routeData => {
-      const id = routeData[0];
-      const track = gpxData.find(gpx => gpx.id === id).gpx;
+    return gpxData.map(gpxData => {
+      const routeData = routesData.find(route => route[0] === gpxData.id);
 
       const peaksIds = routeData[6].split(',').map(id => id.trim());
       const peaks = peaksData
@@ -31,7 +29,7 @@ export default class GapiDriver {
         }));
 
       return {
-        id: parseInt(id),
+        id: parseInt(gpxData.id),
         name: routeData[1],
         elevation: parseInt(routeData[2]),
         distance: Number.parseFloat(routeData[3]),
@@ -41,8 +39,16 @@ export default class GapiDriver {
         difficulty: routeData[7],
         color: routeData[8],
         notes: routeData[9] || '',
-        track: track,
+        track: gpxData.gpx,
       };
+    });
+  }
+
+  async addGpxData(gpxData) {
+    await this._api.post('app://gapi/sheets', {
+      sheetId: this._config.spreadsheetId,
+      range: `gpx_chunks!A${gpxData.id + 1}:Z`,
+      values:[gpxData.id, ...this._gpxToChunks(gpxData.track)],
     });
   }
 
@@ -64,5 +70,16 @@ export default class GapiDriver {
     data.shift();
 
     return data;
+  }
+
+  _gpxFromChunks(chunksData) {
+    return chunksData.map(chunks => ({ id: chunks.shift(), gpx: chunks.join('') }));
+  }
+
+  _gpxToChunks(gpx) {
+    return gpx
+      .replace(/\n/g, '')
+      .replace(/>\s+</g, '><')
+      .match(new RegExp(`.{1,${this._config.chunkSize}}`, 'g'));
   }
 }

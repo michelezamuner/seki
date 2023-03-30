@@ -58,12 +58,22 @@ export default class Service {
     });
   }
 
-  async sheets(sheetId, range) {
+  async getSheets(sheetId, range) {
     const data = await this._browser.gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
       range: range,
     });
 
     return data.result.values;
+  }
+
+  async postSheets(sheetId, range, values) {
+    await this._browser.gapi.client.sheets.spreadsheets.values.update({
+      spreadsheetId: sheetId,
+      range: range,
+      valueInputOption: 'RAW',
+    }, {
+      values: [values],
+    });
   }
 }
