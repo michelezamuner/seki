@@ -59,6 +59,25 @@ export default class Service {
   }
 
   async getSheets(sheetId, range) {
+    try {
+      return await this._doGetSheets(sheetId, range);
+    } catch (e) {
+      await this.login();
+
+      return await this._doGetSheets(sheetId, range);
+    }
+  }
+
+  async postSheets(sheetId, range, values) {
+    try {
+      await this._doPostSheets(sheetId, range, values);
+    } catch (e) {
+      await this.login();
+      await this._doPostSheets(sheetId, range, values);
+    }
+  }
+
+  async _doGetSheets(sheetId, range) {
     const data = await this._browser.gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
       range: range,
@@ -67,7 +86,7 @@ export default class Service {
     return data.result.values;
   }
 
-  async postSheets(sheetId, range, values) {
+  async _doPostSheets(sheetId, range, values) {
     await this._browser.gapi.client.sheets.spreadsheets.values.update({
       spreadsheetId: sheetId,
       range: range,
