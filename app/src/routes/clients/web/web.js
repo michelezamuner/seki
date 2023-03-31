@@ -36,6 +36,7 @@ export default class Web {
       if (!file) {
         return;
       }
+      this._gpxElement.value = '';
       this._gpxReader.readAsText(file, 'UTF-8');
     };
   }
