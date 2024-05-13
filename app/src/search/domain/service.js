@@ -29,12 +29,16 @@ export default class Service {
 
   _normalize(string) {
     return string
-      .replace('à', 'a')
-      .replace('è', 'e')
-      .replace('é', 'e')
-      .replace('ì', 'i')
-      .replace('ò', 'o')
-      .replace('ù', 'u')
+      .replace(/[\u00C0-\u00C5]/g, 'A')
+      .replace(/[\u00C8-\u00CB]/g, 'E')
+      .replace(/[\u00CC-\u00CF]/g, 'I')
+      .replace(/[\u00D2-\u00D6]/g, 'O')
+      .replace(/[\u00D9-\u00DC]/g, 'U')
+      .replace(/[\u00E0-\u00E5]/g, 'a')
+      .replace(/[\u00E8-\u00EB]/g, 'e')
+      .replace(/[\u00EC-\u00EF]/g, 'i')
+      .replace(/[\u00F2-\u00F6]/g, 'o')
+      .replace(/[\u00F9-\u00FC]/g, 'u')
       .toLowerCase();
   }
 }
