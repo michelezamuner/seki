@@ -5,13 +5,14 @@ export default class Service {
 
   criteria(query) {
     const criteria = [];
-    const parts = query.split(',').map(p => p.trim());
+    const parts = query.split('&&').map(p => p.trim());
     for (const part of parts) {
-      const matches = part.match(/^([\w]+)\s+([^\s]+)\s+(.*)$/);
+      const matches = part.match(/^([^~=><]+)([~=><])?([^~=><]+)?$/);
+      const isOnlyCompareString = matches[2] === undefined;
       criteria.push({
-        field: matches ? matches[1] : this._config.defaultField,
-        compare: this._compare(matches ? matches[2] : '~'),
-        value: matches ? matches[3] : part,
+        field: isOnlyCompareString ? this._config.defaultField : matches[1].trim(),
+        compare: this._compare(isOnlyCompareString ? '~' : matches[2]),
+        value: isOnlyCompareString ? part : matches[3].trim(),
       });
     }
 
@@ -20,7 +21,17 @@ export default class Service {
 
   _compare(symbol) {
     switch (symbol) {
-    case '~': return (a, b) => this._normalize(a).includes(this._normalize(b));
+    case '~': return (a, b) => {
+      const string = this._normalize(a);
+      const keywords = this._normalize(b).split(/\s+/);
+      for (const keyword of keywords) {
+        if (!string.includes(keyword)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
     case '=': return (a, b) => ('' + a) === ('' + b);
     case '>': return (a, b) => a >= b;
     case '<': return (a, b) => a <= b;
