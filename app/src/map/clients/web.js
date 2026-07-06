@@ -17,9 +17,9 @@ export default class Web {
   }
 
   async _onSekiLoaded() {
-    this._addStyle('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css');
+    this._addStyle('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
     this._addScript(
-      'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js',
+      'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
       'map.leaflet_loaded'
     );
     this._addScript(
@@ -58,7 +58,6 @@ export default class Web {
     this._window.L.tileLayer(this._config.tileLayer.url, {
       maxZoom: this._config.tileLayer.maxZoom,
       attribution: this._config.tileLayer.attribution,
-      id: this._config.tileLayer.id,
       tileSize: this._config.tileLayer.tileSize,
       zoomOffset: this._config.tileLayer.zoomOffset,
     }).addTo(this._window.map);

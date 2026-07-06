@@ -2,28 +2,29 @@ export default {
   gapi: {
     apiKey: '',
     clientId: '',
-    discoveryDocs: [],
-    scopes: '',
+    discoveryDocs: [
+      'https://sheets.googleapis.com/$discovery/rest?version=v4'
+    ],
+    scopes: 'https://www.googleapis.com/auth/spreadsheets',
   },
   map: {
-    id: '',
-    center: [0, 0],
-    zoom: 0,
+    id: 'map',
+    center: [45.990393, 12.408146],
+    zoom: 11,
     tileLayer: {
-      url: '',
-      maxZoom: 0,
-      attribution: '',
-      id: '',
-      tileSize: 0,
-      zoomOffset: 0,
+      url: 'https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/tiles/512/{z}/{x}/{y}?access_token=',
+      maxZoom: 22,
+      attribution:  '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://www.mapbox.com/about/maps/">Mapbox</a> <strong><a href="https://labs.mapbox.com/contribute/" target="_blank">Improve this map</a></strong>',
+      tileSize: 512,
+      zoomOffset: -1,
     },
   },
   routes: {
-    chunkSize: 0,
+    chunkSize: 50000,
     spreadsheetId: '',
   },
   search: {
-    defaultField: '',
+    defaultField: 'name',
   },
   seki: {
     clients: {
